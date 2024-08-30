@@ -1,3 +1,9 @@
+''' 
+The following code is to run a simple TicTacToe game in your terminal with puython language. 
+The following code creates a game for two persons with their names.
+The winning person name is displayed as won if any of the players won the game otherwise Tie if no one wins.
+'''
+
 def play(l,s,Name):
   print(f'{Name} Turn')
   pos=(int(input(f"Enter Row : "))-1)*3+(int(input("Enter column : "))-1)
