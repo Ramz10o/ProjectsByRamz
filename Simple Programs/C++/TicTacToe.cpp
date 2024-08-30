@@ -75,7 +75,7 @@ public:
                 break;
             }
         }
-        if (!isEmpty) {
+        if (! isEmpty) {
             cout << "Tie !" << endl;
             break;
         }

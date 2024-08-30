@@ -54,7 +54,7 @@ public class TicTacToe {
         while (this.board.contains("   ")) { 
             System.out.println(player + " turn : ");
             System.out.print("Enter row : ");
-            pos = (sc.nextInt()-1)*3;
+            pos = (sc.nextInt()-1) * 3;
             System.out.print("Enter column : ");
             pos += (sc.nextInt()-1); 
             if(!this.isAvailable(pos)){

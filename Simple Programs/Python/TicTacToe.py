@@ -35,7 +35,7 @@ while('   ' in l):
   printGame(l)
   if(checkWin(l,turn)):
     print(f'\n{Curr} Wins !')
-    flag=1
+    flag = 1
     break
   turn=' O ' if turn==' X ' else ' X '
   Curr=Name1 if Curr==Name2 else Name2
