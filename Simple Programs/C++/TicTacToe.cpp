@@ -1,3 +1,9 @@
+/*
+The following code is to run a simple TicTacToe game in your terminal with c++ language. 
+The following code creates a game for two persons with their names.
+The winning person anme is displayed as won if any of the players won the game otherwise Tie if no one wins.
+*/ 
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -69,7 +75,7 @@ public:
         player = player == n1 ? n2 : n1;
         
         bool isEmpty = false;
-        for (const auto& space : board) {
+        for (const auto & space : board) {
             if (space == "   ") {
                 isEmpty = true;
                 break;
