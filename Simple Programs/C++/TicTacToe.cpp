@@ -1,7 +1,7 @@
 /*
 The following code is to run a simple TicTacToe game in your terminal with c++ language. 
 The following code creates a game for two persons with their names.
-The winning person anme is displayed as won if any of the players won the game otherwise Tie if no one wins.
+The winning person name is displayed as won if any of the players won the game otherwise Tie if no one wins.
 */ 
 
 #include <iostream>
