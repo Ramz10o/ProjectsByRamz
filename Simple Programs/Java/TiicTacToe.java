@@ -1,3 +1,9 @@
+/*
+The following code is to run a simple TicTacToe game in your terminal with java language. 
+The following code creates a game for two persons with their names.
+The winning person name is displayed as won if any of the players won the game otherwise Tie if no one wins.
+*/ 
+
 import java.util.*;
 public class TicTacToe {
     List<String> board;
