@@ -1,49 +1,64 @@
 ''' 
+Tic Tac Toe
+
 The following code is to run a simple TicTacToe game in your terminal with puython language. 
 The following code creates a game for two persons with their names.
 The winning person name is displayed as won if any of the players won the game otherwise Tie if no one wins.
 '''
 
-def play(l,s,Name):
-  print(f'{Name} Turn')
-  pos=(int(input(f"Enter Row : "))-1)*3+(int(input("Enter column : "))-1)
-  if(pos<0 or pos>8 or l[pos]!='   '):
-      return 1
-  l[pos]=s
-def printGame(l):
-  print(f'''
+class TicTacToe :
+  
+  def __init__(self,Name1,Name2) :
+    self.Name1,self.turn = Name1,' X '
+    self.Name2,self.flag = Name2,0
+    self.Curr = self.Name1
+    self.Turn = {self.Name1 : ' X ', self.Name2 : ' O '}
+    self.board=["   " for x in range(9)]
+    self.winPatterns=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+    
+  def __makeMove(self):
+    print(f'{self.Curr} Turn')
+    pos=(int(input(f"Enter Row : "))-1)*3+(int(input("Enter column : "))-1)
+    if pos<0 or pos>8 or self.board[pos]!='   ' :
+        return 1
+    self.board[pos]=self.turn[self.Curr]
+    
+  def __printGame(self):
+    print(f'''
 
-          {l[0]}  |  {l[1]}  |  {l[2]}
+            {self.board[0]}  |  {self.board[1]}  |  {self.board[2]}
 
-        __ __ __ __ __ __ __ __
+          __ __ __ __ __ __ __ __
 
-          {l[3]}  |  {l[4]}  |  {l[5]}
+            {self.board[3]}  |  {self.board[4]}  |  {self.board[5]}
 
-        __ __ __ __ __ __ __ __
+          __ __ __ __ __ __ __ __
 
-          {l[6]}  |  {l[7]}  |  {l[8]}
+            {self.board[6]}  |  {self.board[7]}  |  {self.board[8]}
 
-        ''')
-def checkWin(l,p):
-  for i in winPatterns:
-    if(l[i[0]]==l[i[1]] and l[i[0]]==l[i[2]] and l[i[1]]==p):
-      return True
-  return False
-Name1,turn = input('Enter name of player-1 ( X ) : '),' X '
-Name2,flag = input('Enter name of player-2 ( O ) : '),0
-Curr = Name1
-l=["   " for x in range(9)]
-winPatterns=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
-while('   ' in l):
-  if play(l,turn,Curr)==1:
-      print("\nPosition not available. Try again.\n")
-      continue
-  printGame(l)
-  if(checkWin(l,turn)):
-    print(f'\n{Curr} Wins !')
-    flag = 1
-    break
-  turn=' O ' if turn==' X ' else ' X '
-  Curr=Name1 if Curr==Name2 else Name2
-if(flag==0 and '   ' not in l):
-  print('\nTie !')
+          ''')
+    
+  def __checkWin(self):
+    for i in self.winPatterns:
+      p = self.turn[self.Curr]
+      if self.board[i[0]]==self.board[i[1]] and self.board[i[0]]==self.board[i[2]] and self.board[i[1]]==p :
+        return True
+    return False
+  
+  def play(self) :
+    while('   ' in self.board):
+      if self.__makeMove()==1:
+          print("\nPosition not available. Try again.\n")
+          continue
+      self.__printGame()
+      if(self.__checkWin()):
+        print(f'\n{self.Curr} Wins !')
+        self.flag = 1
+        break
+      self.Curr=self.Name1 if self.Curr==self.Name2 else self.Name2
+    if(self.flag==0 and '   ' not in self.board):
+      print('\nTie !')
+      
+Name1,Name2 = input('Enter name of player-2 ( X ) : '),input('Enter name of player-2 ( O ) : ')
+game = TicTacToe(Name1,Name2)
+game.play()
