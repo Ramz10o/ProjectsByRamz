@@ -59,6 +59,6 @@ class TicTacToe :
     if(self.flag==0 and '   ' not in self.board):
       print('\nTie !')
       
-Name1,Name2 = input('Enter name of player-2 ( X ) : '),input('Enter name of player-2 ( O ) : ')
+Name1,Name2 = input('Enter name of player-1 ( X ) : '),input('Enter name of player-2 ( O ) : ')
 game = TicTacToe(Name1,Name2)
 game.play()
