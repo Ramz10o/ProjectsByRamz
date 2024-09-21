@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Records - Person Management System</title>
+    <style>
+        header, footer {
+            background: linear-gradient(to right, #5c6bc0, #512da8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 18px;
+        }
+        body{
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        }
+        footer{
+            bottom: 1%;
+            position:absolute;
+            width: 99%;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            border-radius: 18px;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        section {
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #f9f9f9;
+            margin: 5px 0;
+            padding: 10px;
+            border-left: 5px solid #007BFF;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Person Management System</h1>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="Home.html">Home</a>
+        <a href="AddRecords.html">Add Person</a>
+        <a href="ShowRecords.html">Show Records</a>
+        <a href="/logout">Logout</a>
+    </nav>
+
+    <!-- Show Records Section -->
+    <section>
+        <h2>Records List</h2>
+        <ul id="recordsList">
+            <li>John Doe - john@example.com - +1234567890</li>
+            <li>Jane Smith - jane@example.com - +0987654321</li>
+        </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Person Management System</p>
+    </footer>
+
+</body>
+</html>
