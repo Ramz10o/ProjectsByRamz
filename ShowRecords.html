@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Records - Person Management System</title>
+    <script scr="backend.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
         header, footer {
             background: linear-gradient(to right, #5c6bc0, #512da8);
             color: white;
@@ -21,9 +23,8 @@
             width: 99%;
         }
         nav {
-            background-color: #333;
+            background: none;
             overflow: hidden;
-            border-radius: 18px;
         }
         nav a {
             float: left;
@@ -56,15 +57,13 @@
     <!-- Header -->
     <header>
         <h1>Person Management System</h1>
+        <nav>
+            <a href="Home.html">Home</a>
+            <a href="AddRecords.html">Add Person</a>
+            <a href="ShowRecords.html">Show Records</a>
+            <a href="/logout">Logout</a>
+        </nav>
     </header>
-
-    <!-- Navigation Bar -->
-    <nav>
-        <a href="Home.html">Home</a>
-        <a href="AddRecords.html">Add Person</a>
-        <a href="ShowRecords.html">Show Records</a>
-        <a href="/logout">Logout</a>
-    </nav>
 
     <!-- Show Records Section -->
     <section>
