@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Person Management System</title>
+    <script scr="backend.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        header, footer {
+            background: linear-gradient(to right, #5c6bc0, #512da8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 18px;
+        }
+        body{
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        }
+        footer{
+            bottom: 1%;
+            position:absolute;
+            width: 99%;
+        }
+        nav {
+            justify-content: space-evenly;
+            position: relative;
+            align-items: center;
+            background: none;
+            overflow: hidden;
+        }
+        nav a {
+            position: relative;
+            float : left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #575757;
+            border-radius: 5px;
+        }
+        section {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Person Management System</h1>
+        <nav>
+            <a href="Home.html">Home</a>
+            <a href="AddRecords.html">Add Person</a>
+            <a href="ShowRecords.html">Show Records</a>
+            <a href="/logout"">Logout</a>
+        </nav>
+    </header>
+
+    <section>
+        <h2>Welcome to the Person Management System</h2>
+        <p>This system allows you to manage person records by adding and viewing details.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Person Management System</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Person - Person Management System</title>
+    <script scr="backend.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        header, footer {
+            background: linear-gradient(to right, #5c6bc0, #512da8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 18px;
+        }
+        body{
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        }
+        footer{
+            bottom: 1%;
+            position:absolute;
+            width: 99%;
+        }
+        nav {
+            background: none;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        section {
+            padding: 20px;
+        }
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        form input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Person Management System</h1>
+        <nav>
+            <a href="Home.html">Home</a>
+            <a href="AddRecords.html">Add Person</a>
+            <a href="ShowRecords.html">Show Records</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Add Person Section -->
+    <section>
+        <h2>Add Person Details</h2>
+        <form action="/add-record" method="POST">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" placeholder="Enter name" required><br><br>
+
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" placeholder="Enter email" required><br><br>
+
+            <label for="phone">Phone:</label><br>
+            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required><br><br>
+
+            <label for="pic">Upload Image:</label><br><br>
+            <input type="file" id="pic" name="pic" placeholer="Slecet image from device" required><br><br><br>
+
+            <input type="submit" value="Add Record">
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Person Management System</p>
+    </footer>
+
+</body>
+</html>
