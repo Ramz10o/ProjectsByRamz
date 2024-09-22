@@ -23,12 +23,17 @@
             width: 99%;
         }
         nav {
-            background: none;
-            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1; 
         }
         nav a {
-            float: left;
-            display: block;
             color: white;
             text-align: center;
             padding: 14px 16px;
@@ -36,9 +41,6 @@
         }
         nav a:hover {
             background-color: #575757;
-        }
-        nav .right{
-            float: right;
         }
         section {
             padding: 20px;
@@ -61,10 +63,12 @@
     <header>
         <h1>Person Management System</h1>
         <nav>
-            <a href="Home.html">Home</a>
-            <a href="AddRecords.html">Add Person</a>
-            <a href="ShowRecords.html">Show Records</a>
-            <a href="/logout" class="right">Logout</a>
+            <div class="nav-links">
+                <a href="Home.html">Home</a>
+                <a href="AddRecords.html">Add Person</a>
+                <a href="ShowRecords.html">Show Records</a>
+            </div>
+            <a href="/logout">Logout</a>
         </nav>
     </header>
 
