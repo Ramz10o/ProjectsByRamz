@@ -231,7 +231,6 @@
                 <h1>Sign In</h1><br>
                 <input type="email" placeholder="Email" name="email" required>
                 <input type="password" placeholder="Password" name="password" required>
-                <a href="Forgot.html"">Forget Your Password?</a>
                 <button>Sign In</button>
                 <a href="mailto:aidsasec0@gmail.com">Contact me</a>
             </form>
@@ -239,13 +238,13 @@
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
-                    <h1>Welcome Back!</h1>
+                    <h1>Hello, Friend!</h1>
                     <p>Register with your personal details to use all of site features</p><br>
                     <p>Already hava an account ?</p>
                     <button class="hidden" id="login">Sign In</button>
                 </div>
                 <div class="toggle-panel toggle-right">
-                    <h1>Hello, Friend!</h1>
+                    <h1>Welcome Back !</h1>
                     <p>Enter your credentials to access your data</p><br>
                     <p>Dont have an accout ?</p>
                     <button class="hidden" id="register">Sign Up</button>
@@ -255,35 +254,62 @@
     </div>
     <script>
         const container = document.getElementById('container');
-    const registerBtn = document.getElementById('register');
-    const loginBtn = document.getElementById('login');
+        const registerBtn = document.getElementById('register');
+        const loginBtn = document.getElementById('login');
 
-    registerBtn.addEventListener('click', () => {
-        container.classList.add("active");
-    });
+        registerBtn.addEventListener('click', () => {
+            container.classList.add("active");
+        });
 
-    loginBtn.addEventListener('click', () => {
-        container.classList.remove("active");
-    });
-    document.getElementById('login').addEventListener('submit', async (e) => {
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove("active");
+        });
+        document.getElementById('loginpost').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = e.target.email.value;
+            const password = e.target.password.value;
+
+            try {
+                const response = await fetch('http://localhost:5000/login', { // Replace <PORT> with your actual port number
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    sessionStorage.setItem('jwt',data.token);
+                    window.location.href = './Home.html';
+                } else {
+                    alert('Error logging in:' + data.message);
+                }
+
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        // Handle Signup Form Submission
+        document.getElementById('signuppost').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        const email = e.target.email.value;
-        const password = e.target.password.value;
+
+        const username = e.target.username.value; 
+        const email = e.target.email.value; 
+        const password = e.target.password.value; 
 
         try {
-            const response = await fetch('http://localhost:5000/login', { // Replace <PORT> with your actual port number
+            const response = await fetch('http://localhost:5000/signup', { // Replace <PORT> with your actual port number
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ username, email, password }),
             });
 
-            const data = await response.json();
+            const data = await response.json();;
             if (response.ok) {
-                alert('Login successful! Token received.');
-                // Handle token storage or redirection as needed
+                alert('Signup successful! You can now log in.');
             } else {
-                alert('Error logging in:' + data.message);
+                alert('Error signing up:' + data.message);
             }
 
         } catch (error) {
@@ -291,35 +317,6 @@
             alert('An error occurred. Please try again.');
         }
     });
-
-    // Handle Signup Form Submission
-    document.getElementById('signup').addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const username = e.target.username.value; 
-      const email = e.target.email.value; 
-      const password = e.target.password.value; 
-
-      try {
-          const response = await fetch('http://localhost:<PORT>/signup', { // Replace <PORT> with your actual port number
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ username, email, password }),
-          });
-
-          const data = await response.json();
-          if (response.ok) {
-              alert('Signup successful! You can now log in.');
-              toggleForms(); // Switch to login form
-          } else {
-              alert('Error signing up:' + data.message);
-          }
-
-      } catch (error) {
-          console.error('Error:', error);
-          alert('An error occurred. Please try again.');
-      }
-  });
     </script>
 </body>
 </html>
