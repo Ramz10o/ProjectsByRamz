@@ -78,7 +78,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-const Record = mongoose.model('Record', new Mongoose.Schema({
+const Record = mongoose.model('Record', new mongoose.Schema({
     name : {type : String, required: true},
     dob : {type : Date, required: true},
     email : {type : String, required: true},
@@ -117,7 +117,7 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
         }
     });
     await details.save();
-    return res.status(200).
+    return res.status(200).json({ 'message' : 'Insertion successful' });
     }
     catch(error){
         if (error instanceof multer.MulterError) {
