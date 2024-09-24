@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Person - Person Management System</title>
-    <script scr="backend.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }    
         header, footer {
             background: linear-gradient(to right, #5c6bc0, #512da8);
             color: white;
@@ -59,11 +64,14 @@
         form input[type="submit"]:hover {
             background-color: #0056b3;
         }
+        .details{
+            max-width: fit-content;
+            margin-inline: auto;
+            border: cyan 2px solid;
+        }
     </style>
 </head>
 <body>
-
-    <!-- Header -->
     <header>
         <h1>Person Management System</h1>
         <nav>
@@ -75,29 +83,67 @@
     </header>
 
     <!-- Add Person Section -->
-    <section>
-        <h2>Add Person Details</h2>
-        <form action="/add-record" method="POST">
-            <label for="name">Name:</label><br>
+    <section class="details">
+        <h2>Add Person Details</h2><br>
+        <form id="addRecord">
+            <label for="name">Name:</label>
             <input type="text" id="name" name="name" placeholder="Enter name" required><br><br>
 
-            <label for="email">Email:</label><br>
+            <label for="dob">DOB:</label>
+            <input type="date" id="dob" name="dob" required><br><br>
+
+            <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="Enter email" required><br><br>
 
-            <label for="phone">Phone:</label><br>
+            <label for="phone">Phone:</label>
             <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required><br><br>
 
-            <label for="pic">Upload Image:</label><br><br>
-            <input type="file" id="pic" name="pic" placeholer="Slecet image from device" required><br><br><br>
+            <label for="pic">Upload Image(Max size 2 MB):</label>
+            <input type="file" id="pic" name="pic" placeholer="Select image from device" required><br><br>
 
-            <input type="submit" value="Add Record">
+            <input type="submit">
         </form>
     </section>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2024 Person Management System</p>
     </footer>
+    <script>
+        const form = document.getElementById('addRecord');
 
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const dob = document.getElementById('dob').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const pic = document.getElementById('pic').files[0];
+
+            const formData = new FormData();
+            formData.append('pic', pic);
+            formData.append('name', name);
+            formData.append('dob', dob);
+            formData.append('email', email);
+            formData.append('phone', phone);
+
+            try {
+                const response = await fetch('http://localhost:5000/addRecord', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const msg = await response.json();
+                if (response.ok) {
+                    alert('Details saved successfully');
+                } else {
+                    alert('Error inserting record : ' + msg.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error inserting record');
+            }
+        });
+    </script>
 </body>
 </html>
