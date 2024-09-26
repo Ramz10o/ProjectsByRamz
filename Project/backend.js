@@ -1,6 +1,7 @@
 // backend.js
 
 const express = require('express');
+const session = require('express-session');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -14,6 +15,13 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use(session({
+    secret: 'Devara', 
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: false } 
+}));
 
 // Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/UserData", { useNewUrlParser: true, useUnifiedTopology: true })
@@ -44,12 +52,14 @@ app.post('/signup', async (req, res) => {
 
         // Insert new record
         await user.save();
-
+        console.log('Sign Up Successful');
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+let username = '', login = false, msg = '';
 
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -68,26 +78,50 @@ app.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
+        req.session.username = user.name;
+        req.session.isLoggedIn = true;
+        username = user.name; login = true;
+        console.log(req.session.username);
         // If the password is correct, return a JWT token
         const token = jwt.sign({ userId: user._id }, 'CODM is best mobile fps game',{ expiresIn: '1h' });
+        console.log('Login Successful');
         return res.status(200).json({ message : 'Login Successful',token });
+
 
     } catch (error) {
         console.error(error)
-        res.status(500).json({ message: 'Server error' });
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.post('/valid', (req,res) => {
+    try{
+        if (!login) {
+            return res.status(400).json({ message : 'Authentication error Login again' });
+        } else {
+            if(msg === ''){
+                msg = 'Welcome';
+                return res.status(200).json({ message : `Welcome ${username}` });
+            }
+        }
+    }catch (error){
+        console.error(error);
+        return res.status(500).json({ message : 'Server error' });
     }
 });
 
 const Record = mongoose.model('Record', new mongoose.Schema({
+    username : {type : String, required: true},
     name : {type : String, required: true},
     dob : {type : Date, required: true},
     email : {type : String, required: true},
     phone : {type : String, required: true},
-    pic : {data : Buffer, required: true},
+    pic : {type : Buffer, required: true},
+    extension : {type : String, required: true}
 }));
 
 const storage = multer.memoryStorage();
-upload = multer({
+const upload = multer({
     storage: storage,
     limits: {
         fileSize: 2 * 1024 * 1024 // Limit to 5MB
@@ -101,35 +135,42 @@ upload = multer({
     }
 });
 
-const upload = multer({ storage });
 
 app.post('/addRecord', upload.single('pic'), async (req,res) => {
     const {name, dob, email, phone} = req.body;
     try{
         if (!req.file) {
-            return res.status(400).json({ 'message' : 'No file uploaded.' });
+            return res.status(400).json({ message : 'No file uploaded.' });
         }
-        const details = new Record({
-        name : name, dob :  dob, email : email, phone : phone,
-        pic: {
-            data: req.file.buffer,
-            contentType: req.file.mimetype,
-        }
-    });
+        console.log(req.session.username);
+        console.log(req.file);
+        const details = new Record({ username : username, name : name, dob :  dob, email : email, phone : phone, 
+            pic : req.file.buffer, extension : req.file.mimetype});
     await details.save();
-    return res.status(200).json({ 'message' : 'Insertion successful' });
+    return res.status(200).json({ message : 'Insertion successful' });
     }
     catch(error){
         if (error instanceof multer.MulterError) {
             if(error.code === 'LIMIT_FILE_SIZE'){
-                return res.status(400).json({ 'message' : 'Pic size exceed 2 MB' });
+                return res.status(400).json({ message : 'Pic size exceed 2 MB' });
             }
-            return res.status(400).json({ 'message' : error.message });
+            return res.status(400).json({ message : error.message });
         }
         console.error(error);
-        res.status(500).json({ 'mesage' : 'Error uploading details' });
+        res.status(500).json({ mesage : 'Error uploading details' });
     }
 });
+
+app.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ message: 'Could not log out' });
+        }
+        login = false; username = '', msg = '';
+        res.status(200).json({ message: 'Logout successful' });
+    });
+});
+
 
 // Start the server
 app.listen(PORT, () => {

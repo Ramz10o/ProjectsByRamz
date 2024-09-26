@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Records - Person Management System</title>
-    <script scr="backend.js"></script>
+    <script src="../script.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
         *{
@@ -58,7 +58,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="valid()"">
 
     <!-- Header -->
     <header>
@@ -67,7 +67,7 @@
             <a href="Home.html">Home</a>
             <a href="AddRecords.html">Add Person</a>
             <a href="ShowRecords.html">Show Records</a>
-            <a href="/logout">Logout</a>
+            <button onclick="signout()">Logout</a>
         </nav>
     </header>
 

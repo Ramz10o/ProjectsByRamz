@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Person - Person Management System</title>
+    <title>Add Record - Person Management System</title>
+    <script src="../script.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
         *{
@@ -71,14 +72,14 @@
         }
     </style>
 </head>
-<body>
+<body onload="valid()">
     <header>
         <h1>Person Management System</h1>
         <nav>
             <a href="Home.html">Home</a>
             <a href="AddRecords.html">Add Person</a>
             <a href="ShowRecords.html">Show Records</a>
-            <a href="/logout">Logout</a>
+            <button onclick="signout()">Logout</a>
         </nav>
     </header>
 
@@ -135,7 +136,7 @@
 
                 const msg = await response.json();
                 if (response.ok) {
-                    alert('Details saved successfully');
+                    alert(msg.message);
                 } else {
                     alert('Error inserting record : ' + msg.message);
                 }
