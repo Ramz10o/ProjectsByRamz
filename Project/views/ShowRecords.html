@@ -29,9 +29,13 @@
             width: 99%;
         }
         nav {
+            left: 30%;
+            justify-content: space-evenly;
+            position: relative;
+            align-items: center;
             background: none;
             overflow: hidden;
-        }
+        } 
         nav a {
             float: left;
             display: block;
@@ -58,7 +62,7 @@
         }
     </style>
 </head>
-<body onload="valid()"">
+<body onload="valid()">
 
     <!-- Header -->
     <header>
@@ -74,16 +78,69 @@
     <!-- Show Records Section -->
     <section>
         <h2>Records List</h2>
-        <ul id="recordsList">
-            <li>John Doe - john@example.com - +1234567890</li>
-            <li>Jane Smith - jane@example.com - +0987654321</li>
-        </ul>
+        <div id="recordsList" onload="getData()">
+        </div>
     </section>
 
     <!-- Footer -->
     <footer>
         <p>&copy; 2024 Person Management System</p>
     </footer>
-
+    <script>
+        const holder = document.getElementById("recordsList");
+        async function getData(){
+            try{
+                const email = localStorage.getItem('email');
+                const response = await fetch('http://localhost:5000/getRecords',  {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body : JSON.stringify({ email : email })
+                });
+                const data = await response.json();
+                if(data.message === 'Empty'){
+                    holder.innerHTML = `<h1>No records found.</h1>`;
+                }
+                else{
+                    holder.innerHTML = '';
+                    data.record.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'Record';
+                        div.innerHTML = `<h3>Name : ${item.name}</h3>
+                        <img src = "data:${item.pic.contentType};base64,${item.pic.data.toString('base64')}" alt="${item.name}""><br>
+                        <p>E-Mail : ${item.email}</p><br>
+                        <p>Phone : ${item.phone}</p><br>
+                        <button onclick = "del()"></button>`;
+                        holder.appendChild(div);
+                    });
+            }
+        }
+        catch(error){
+            console.error(error);
+            alert('Error retrieving records');
+        }
+    }
+    async function del(){
+        try{
+            const email = localStorage.getItem('email');
+            const response = await fetch('http://localhost:5000/deleteRecord', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body : JSON.stringify({ email : email })
+                });
+                const data = await response.json();
+                if(response.ok){
+                    alert('Record deleted');
+                    getData();
+                }
+                else{
+                    alert('Record does not exist');
+                }
+            }
+            catch(error){
+                alert('Error deleting record');
+                console.error(error);
+            }
+    }
+    </script>
 </body>
 </html>

@@ -29,6 +29,10 @@
             width: 99%;
         }
         nav {
+            left: 30%;
+            justify-content: space-evenly;
+            position: relative;
+            align-items: center;
             background: none;
             overflow: hidden;
         }
@@ -127,6 +131,7 @@
             formData.append('dob', dob);
             formData.append('email', email);
             formData.append('phone', phone);
+            formData.append('user', localStorage.getItem('email'));
 
             try {
                 const response = await fetch('http://localhost:5000/addRecord', {
@@ -145,6 +150,29 @@
                 alert('Error inserting record');
             }
         });
+
+async function signout(){
+    try {
+        const email = localStorage.getItem('email');
+        const response = await fetch('http://localhost:5000/logout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+        });
+
+        const msg = await response.json();
+        if (response.ok) {
+            alert(msg.message);
+            localStorage.removeItem('email');
+            window.location.href = './Login_SignUp.html';
+        } else {
+            window.alert('Error logging out : ' + msg.message);
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Error inserting record');
+      }
+    }
     </script>
 </body>
 </html>

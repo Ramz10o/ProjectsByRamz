@@ -1,41 +1,36 @@
-// backend.js
-
 const express = require('express');
-const session = require('express-session');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cors = require('cors');
+const { Record, Logins, User } = require('./models/models');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const storage = multer.memoryStorage();
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024 
+    },
+    fileFilter: (req, file, cb) => {
+        if (!file.mimetype.startsWith('image/')) {
+            return cb(new Error('Only image files are allowed!'), false);
+        }
+        cb(null, true);
+    }
+});
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(session({
-    secret: 'Devara', 
-    resave: true,
-    saveUninitialized: true,
-    cookie: { secure: false } 
-}));
 
-// Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/UserData", { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error(err));
-    
-// Create a model
-const User = mongoose.model('User', new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-}), 'Credentials');
 
-// Handle incoming requests for signup and login
 app.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
     try {
@@ -44,13 +39,8 @@ app.post('/signup', async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
         }
-
-        // Hash the password before saving it
         const hashedPassword = await bcrypt.hash(password, 10);
-
         const user = new User({ name : username, email : email, password : hashedPassword })
-
-        // Insert new record
         await user.save();
         console.log('Sign Up Successful');
         res.status(201).json({ message: 'User created successfully' });
@@ -59,50 +49,43 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-let username = '', login = false, msg = '';
 
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-
     try {
-        // Find user by email
         console.log('Login attempt');
         const user = await User.findOne({ email : email });
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
-
-        // Compare the password with the hashed password stored in the database
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
-
-        req.session.username = user.name;
-        req.session.isLoggedIn = true;
-        username = user.name; login = true;
-        console.log(req.session.username);
-        // If the password is correct, return a JWT token
+        const login = new Logins({ email : user.email, message : 'welcome' });
+        await login.save();
         const token = jwt.sign({ userId: user._id }, 'CODM is best mobile fps game',{ expiresIn: '1h' });
         console.log('Login Successful');
-        return res.status(200).json({ message : 'Login Successful',token });
-
-
+        return res.status(200).json({ message : 'Login Successful', token, email : user.email });
     } catch (error) {
         console.error(error)
         return res.status(500).json({ message: 'Server error' });
     }
 });
 
-app.post('/valid', (req,res) => {
+app.post('/valid', async (req,res) => {
     try{
-        if (!login) {
+        const user = await Logins.findOne({ email : req.body.email });
+        if (!user) {
             return res.status(400).json({ message : 'Authentication error Login again' });
         } else {
-            if(msg === ''){
-                msg = 'Welcome';
-                return res.status(200).json({ message : `Welcome ${username}` });
+            if(user.message === 'welcome'){
+                await Logins.updateOne({ email : req.body.email }, { message : '' });
+                const user = await User.findOne({ email : req.body.email });
+                console.log(`Welcome ${user.name}`);
+                return res.status(200).json({ message : `Welcome ${user.name}` });
             }
+            return res.status(200).json({message : 'Done'});
         }
     }catch (error){
         console.error(error);
@@ -110,49 +93,31 @@ app.post('/valid', (req,res) => {
     }
 });
 
-const Record = mongoose.model('Record', new mongoose.Schema({
-    username : {type : String, required: true},
-    name : {type : String, required: true},
-    dob : {type : Date, required: true},
-    email : {type : String, required: true},
-    phone : {type : String, required: true},
-    pic : {type : Buffer, required: true},
-    extension : {type : String, required: true}
-}));
-
-const storage = multer.memoryStorage();
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 2 * 1024 * 1024 // Limit to 5MB
-    },
-    fileFilter: (req, file, cb) => {
-        // Accept only image files
-        if (!file.mimetype.startsWith('image/')) {
-            return cb(new Error('Only image files are allowed!'), false);
-        }
-        cb(null, true);
-    }
-});
-
-
 app.post('/addRecord', upload.single('pic'), async (req,res) => {
-    const {name, dob, email, phone} = req.body;
+    const {name, dob, email, phone, user} = req.body;
     try{
-        if (!req.file) {
-            return res.status(400).json({ message : 'No file uploaded.' });
+        console.log('Attempt to add record');
+        const record1 = await Record.findOne({ email : email });  
+        if(record1){
+            return res.status(400).json({ message : 'Email already exists with different person' });
         }
-        console.log(req.session.username);
-        console.log(req.file);
-        const details = new Record({ username : username, name : name, dob :  dob, email : email, phone : phone, 
-            pic : req.file.buffer, extension : req.file.mimetype});
-    await details.save();
-    return res.status(200).json({ message : 'Insertion successful' });
+        const record2 = await Record.findOne({ phone : phone });  
+        if(record2){
+            return res.status(400).json({ message : 'Phone already exists with different person' });
+        }
+        const details = new Record({ username : user, name : name, dob :  dob, email : email, phone : phone, 
+            pic : {
+                data : req.file.buffer, 
+                extension : req.file.mimetype
+            }});
+        await details.save();
+        console.log('Insertion successful');
+        return res.status(200).json({ message : 'Insertion successful' });
     }
     catch(error){
         if (error instanceof multer.MulterError) {
             if(error.code === 'LIMIT_FILE_SIZE'){
-                return res.status(400).json({ message : 'Pic size exceed 2 MB' });
+                return res.status(400).json({ message : 'Pic size exceed 5 MB' });
             }
             return res.status(400).json({ message : error.message });
         }
@@ -161,18 +126,29 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
     }
 });
 
-app.post('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
+app.post('/logout', async (req, res) => {
+        try{
+            console.log('Logout attempt')
+            const user = await Logins.findOne({ email : req.body.email });
+            if (!user) {
+                return res.status(400).json({ message : 'No login found' });
+            }
+            await Logins.deleteOne({ email : user.email });
+            console.log(`Logout Successful`); 
+            const name =await User.findOne({ email : req.body.email });
+            console.log(`Bye ${name.name}`);
+            return res.status(200).json({ message: 'Logout successful' });
+        }
+        catch (error){
+            console.error(error);
             return res.status(500).json({ message: 'Could not log out' });
         }
-        login = false; username = '', msg = '';
-        res.status(200).json({ message: 'Logout successful' });
     });
-});
 
+const delAll = (async () => {
+    await Logins.deleteMany({});
+}); delAll();
 
-// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

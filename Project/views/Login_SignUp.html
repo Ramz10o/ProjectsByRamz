@@ -223,7 +223,7 @@
                 <input type="email" placeholder="Email" name="email" required>
                 <input type="password" placeholder="Password" name="password" required>
                 <button typr="submit">Sign Up</button>
-                <a href="mailto:ramzpaianaguppam@gmail.com">Contact me</a>
+                <a href="mailto:test@gmail.com">Contact me</a>
             </form>
         </div>
         <div class="form-container sign-in">
@@ -271,7 +271,7 @@
             const password = e.target.password.value;
 
             try {
-                const response = await fetch('http://localhost:5000/login', { // Replace <PORT> with your actual port number
+                const response = await fetch('http://localhost:5000/login', { 
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password }),
@@ -279,7 +279,7 @@
 
                 const data = await response.json();
                 if (response.ok) {
-                    sessionStorage.setItem('jwt',data.token);
+                    localStorage.setItem('email',data.email);
                     window.location.href = './Home.html';
                 } else {
                     alert('Error logging in:' + data.message);
@@ -299,7 +299,7 @@
         const password = e.target.password.value; 
 
         try {
-            const response = await fetch('http://localhost:5000/signup', { // Replace <PORT> with your actual port number
+            const response = await fetch('http://localhost:5000/signup', { 
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, email, password }),
