@@ -126,6 +126,26 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
     }
 });
 
+app.post('/getRecords', async (req,res) => {
+    try{
+        const records = await Record.find({ username : req.body.email });
+        if(! records){
+            return res.status(404).json({ message : 'No records found' });
+        }
+        return res.status(200).json(records);
+    }
+    catch(error){
+        console.error(error);
+        return res.status(500).json({ message : 'Error retrieving records' });
+    }
+});
+
+app.post('/deleteRecord', async (req,res) => {
+    try{
+        const record = await Record.findOneAndDelete({ email : req.body.email });
+    }
+});
+
 app.post('/logout', async (req, res) => {
         try{
             console.log('Logout attempt')
