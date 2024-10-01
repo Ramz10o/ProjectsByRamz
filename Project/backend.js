@@ -130,9 +130,14 @@ app.post('/getRecords', async (req,res) => {
     try{
         const records = await Record.find({ username : req.body.email });
         if(! records){
-            return res.status(404).json({ message : 'No records found' });
+            console.log('Empty');
+            return res.status(404).json({ message : 'Empty' });
         }
-        return res.status(200).json(records);
+        records.forEach((rec) => {
+            console.log(rec.email);
+        });
+        return res.status(200).json({ record : records, message : 'Found' });
+        
     }
     catch(error){
         console.error(error);
@@ -142,7 +147,19 @@ app.post('/getRecords', async (req,res) => {
 
 app.post('/deleteRecord', async (req,res) => {
     try{
-        const record = await Record.findOneAndDelete({ email : req.body.email });
+        console.log('Deletion initiated');
+        console.log(req.body.delid);
+        const record = await Record.findOne({ email : req.body.delid });
+        if(! record){
+            return res.status(404).json({ message : 'Record not found' });
+        }
+        await Record.findAnddeleteOne({email : req.body.delid });
+        console.log('Record deleted successfully');
+        return res.status(200).json({ message : 'Record deleted successfully' });
+    }
+    catch(error){
+        console.error(error);
+        return res.status(500).json({ message : 'Error deleting record' });
     }
 });
 

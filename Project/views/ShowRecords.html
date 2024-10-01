@@ -60,9 +60,30 @@
             padding: 10px;
             border-left: 5px solid #007BFF;
         }
+        #recordsList {
+            width : 50%;
+            position: absolute;
+            left : 25%;
+            border : 1px solid rgb(74, 18, 18);
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+        #recordList .Recors{
+            position : relative;
+            width : 80%;
+            left : 20%;
+            border : 3px solid rgb(32, 131, 197);
+            border-radius: 5px;
+        }
+        #recordList button{
+            position: relative;
+            left: 50%;
+            width : 15px;
+            Height : 10px;
+        }
     </style>
 </head>
-<body onload="valid()">
+<body onload="getData()">
 
     <!-- Header -->
     <header>
@@ -71,14 +92,13 @@
             <a href="Home.html">Home</a>
             <a href="AddRecords.html">Add Person</a>
             <a href="ShowRecords.html">Show Records</a>
-            <button onclick="signout()">Logout</a>
+            <button onclick="signout()">Logout</button>
         </nav>
     </header>
 
     <!-- Show Records Section -->
     <section>
-        <h2>Records List</h2>
-        <div id="recordsList" onload="getData()">
+        <div id="recordsList">
         </div>
     </section>
 
@@ -89,6 +109,7 @@
     <script>
         const holder = document.getElementById("recordsList");
         async function getData(){
+            await valid();
             try{
                 const email = localStorage.getItem('email');
                 const response = await fetch('http://localhost:5000/getRecords',  {
@@ -101,15 +122,17 @@
                     holder.innerHTML = `<h1>No records found.</h1>`;
                 }
                 else{
+                    let i = 0;
                     holder.innerHTML = '';
                     data.record.forEach(item => {
                         const div = document.createElement('div');
                         div.className = 'Record';
+                        div.id = `div${i}`;
                         div.innerHTML = `<h3>Name : ${item.name}</h3>
-                        <img src = "data:${item.pic.contentType};base64,${item.pic.data.toString('base64')}" alt="${item.name}""><br>
+                        <img src = "data:${item.pic.extension};base64,${item.pic.data.toString('base64')}" alt="${item.name}"><br>
                         <p>E-Mail : ${item.email}</p><br>
                         <p>Phone : ${item.phone}</p><br>
-                        <button onclick = "del()"></button>`;
+                        <button onclick = "del('div${i++}')">Delete</button><br><br>`;
                         holder.appendChild(div);
                     });
             }
@@ -119,18 +142,19 @@
             alert('Error retrieving records');
         }
     }
-    async function del(){
+    async function del(id){
         try{
+            const delid = document.getElementById(id).getElementsByTagName('p')[0].innerHTML.slice(9,);
             const email = localStorage.getItem('email');
             const response = await fetch('http://localhost:5000/deleteRecord', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body : JSON.stringify({ email : email })
+                body : JSON.stringify({ email : email, delid : delid })
                 });
-                const data = await response.json();
+                const msg = await response.json();
                 if(response.ok){
-                    alert('Record deleted');
-                    getData();
+                    alert(msg.message);
+                    window.location.href = './ShowRecords.html';
                 }
                 else{
                     alert('Record does not exist');
