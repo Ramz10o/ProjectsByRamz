@@ -7,7 +7,7 @@ const Record = mongoose.model('Record', new mongoose.Schema({
     email : {type : String, required: true},
     phone : {type : String, required: true},
     pic : {
-       data : { type : Buffer, required: true},
+       data : { type : String, required: true},
        extension : { type : String, required: true }
     }
 }), 'Data');

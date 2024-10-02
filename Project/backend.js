@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cors = require('cors');
+const fs = require('fs');
 const { Record, Logins, User } = require('./models/models');
 
 const app = express();
@@ -25,7 +26,7 @@ const upload = multer({
 
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use(express.static('uploads'));
 
 mongoose.connect("mongodb://localhost:27017/UserData", { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
@@ -107,7 +108,7 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
         }
         const details = new Record({ username : user, name : name, dob :  dob, email : email, phone : phone, 
             pic : {
-                data : req.file.buffer, 
+                data : Buffer.from(req.file.buffer).toString('base64'),
                 extension : req.file.mimetype
             }});
         await details.save();
@@ -128,16 +129,14 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
 
 app.post('/getRecords', async (req,res) => {
     try{
+        console.log('Retrieval attempt');
         const records = await Record.find({ username : req.body.email });
-        if(! records){
+        if(! records.length){
             console.log('Empty');
             return res.status(404).json({ message : 'Empty' });
         }
-        records.forEach((rec) => {
-            console.log(rec.email);
-        });
-        return res.status(200).json({ record : records, message : 'Found' });
-        
+        console.log('Retrieval successful');
+        return res.status(200).json({ records : records, message : 'Found' });
     }
     catch(error){
         console.error(error);
@@ -153,7 +152,7 @@ app.post('/deleteRecord', async (req,res) => {
         if(! record){
             return res.status(404).json({ message : 'Record not found' });
         }
-        await Record.findAnddeleteOne({email : req.body.delid });
+        await Record.findOneAndDelete({email : req.body.delid });
         console.log('Record deleted successfully');
         return res.status(200).json({ message : 'Record deleted successfully' });
     }

@@ -25,7 +25,7 @@
         }
         footer{
             bottom: 1%;
-            position:absolute;
+            position: absolute;
             width: 99%;
         }
         nav {
@@ -61,22 +61,45 @@
             border-left: 5px solid #007BFF;
         }
         #recordsList {
-            width : 50%;
+            text-align: center;
+            width : 70%;
             position: absolute;
-            left : 25%;
+            left : 15%;
             border : 1px solid rgb(74, 18, 18);
             border-radius: 10px;
-            flex-wrap: wrap;
+            align-items: center;
+            align-content: space-around;
+            flex: content;
         }
-        #recordList .Recors{
+        .Record{
             position : relative;
             width : 80%;
-            left : 20%;
+            height : 100px;
+            left :10%;
             border : 3px solid rgb(32, 131, 197);
             border-radius: 5px;
+            overflow: hidden;
+        }
+        .pic{
+            position : relative;
+            left : 10%;
+            top : 10%;
+            width : 20svh;
+            height : 20svh;
+            overflow: hidden;
+        }
+        .pic img{
+            position : relative;
+            width : 20svh;
+            height : 20svh;
+        }
+        .details{
+            position : relative;
+            right : 40%;
+            text-align: center;
         }
         #recordList button{
-            position: relative;
+            position: absolute;
             left: 50%;
             width : 15px;
             Height : 10px;
@@ -123,16 +146,21 @@
                 }
                 else{
                     let i = 0;
-                    holder.innerHTML = '';
-                    data.record.forEach(item => {
+                    holder.innerHTML = '<h1>Records List</h1>';
+                    data.records.forEach(item => {
                         const div = document.createElement('div');
                         div.className = 'Record';
                         div.id = `div${i}`;
-                        div.innerHTML = `<h3>Name : ${item.name}</h3>
-                        <img src = "data:${item.pic.extension};base64,${item.pic.data.toString('base64')}" alt="${item.name}"><br>
+                        div.innerHTML = `
+                        <div class = 'pic'>
+                        <img src = "data:${item.pic.extension};base64,${item.pic.data}" alt="${item.name}">
+                        </div>
+                        <div class = 'details'>
+                        <h3>Name : ${item.name}</h3><br>
                         <p>E-Mail : ${item.email}</p><br>
-                        <p>Phone : ${item.phone}</p><br>
-                        <button onclick = "del('div${i++}')">Delete</button><br><br>`;
+                        <p>Phone : ${item.phone}</p><br><br>
+                        <button onclick = "del('div${i++}')">Delete</button><br>
+                        </div>`;
                         holder.appendChild(div);
                     });
             }
@@ -154,7 +182,7 @@
                 const msg = await response.json();
                 if(response.ok){
                     alert(msg.message);
-                    window.location.href = './ShowRecords.html';
+                    getData();
                 }
                 else{
                     alert('Record does not exist');
