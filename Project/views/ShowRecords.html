@@ -20,9 +20,7 @@
             padding: 10px 0;
             border-radius: 18px;
         }
-        body{
-            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-        }
+        
         footer{
             bottom: 1%;
             position: absolute;
@@ -60,49 +58,41 @@
             padding: 10px;
             border-left: 5px solid #007BFF;
         }
-        #recordsList {
-            text-align: center;
-            width : 70%;
-            position: absolute;
-            left : 15%;
-            border : 1px solid rgb(74, 18, 18);
-            border-radius: 10px;
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            margin: 0;
+            padding: 20px;
+        }
+    
+        .Record {
+            display: flex;
             align-items: center;
-            align-content: space-around;
-            flex: content;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            width:70%;
+            left: 15%;
         }
-        .Record{
-            position : relative;
-            width : 80%;
-            height : 100px;
-            left :10%;
-            border : 3px solid rgb(32, 131, 197);
-            border-radius: 5px;
-            overflow: hidden;
+        .recordlist{
+            left: 15%;
+            display: flex;
         }
-        .pic{
-            position : relative;
-            left : 10%;
-            top : 10%;
-            width : 20svh;
-            height : 20svh;
+        .pic {
+            width: 200px; /* Adjust the width as needed */
+            height: 200px; /* Maintain aspect ratio */
+            border-radius: 50%; /* Circular photo */
             overflow: hidden;
+            margin-right: 40px; /* Space between photo and details */
         }
         .pic img{
-            position : relative;
-            width : 20svh;
-            height : 20svh;
+            width: 200px;
+            height: 200px;
         }
-        .details{
-            position : relative;
-            right : 40%;
-            text-align: center;
-        }
-        #recordList button{
-            position: absolute;
-            left: 50%;
-            width : 15px;
-            Height : 10px;
+        .details {
+            flex-grow: 1; /* Allow details to take up remaining space */
         }
     </style>
 </head>
@@ -121,7 +111,7 @@
 
     <!-- Show Records Section -->
     <section>
-        <div id="recordsList">
+        <div class="recordslist">
         </div>
     </section>
 
@@ -130,7 +120,7 @@
         <p>&copy; 2024 Person Management System</p>
     </footer>
     <script>
-        const holder = document.getElementById("recordsList");
+        const holder = document.getElementsByClassName("recordslist")[0];
         async function getData(){
             await valid();
             try{
@@ -157,11 +147,20 @@
                         </div>
                         <div class = 'details'>
                         <h3>Name : ${item.name}</h3><br>
+                        <p>DOB : ${item.dob}</p><br>
                         <p>E-Mail : ${item.email}</p><br>
                         <p>Phone : ${item.phone}</p><br><br>
                         <button onclick = "del('div${i++}')">Delete</button><br>
                         </div>`;
                         holder.appendChild(div);
+                        if (i>2){
+                            const footer=document.getElementsByTagName('footer')[0];
+                            footer.style.position='relative';
+                        }
+                        else{
+                            const footer=document.getElementsByTagName('footer')[0];
+                            footer.style.position='absolute';
+                        }
                     });
             }
         }
@@ -172,7 +171,7 @@
     }
     async function del(id){
         try{
-            const delid = document.getElementById(id).getElementsByTagName('p')[0].innerHTML.slice(9,);
+            const delid = document.getElementById(id).getElementsByTagName('p')[1].innerHTML.slice(9,);
             const email = localStorage.getItem('email');
             const response = await fetch('http://localhost:5000/deleteRecord', {
                 method: 'POST',

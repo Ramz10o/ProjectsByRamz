@@ -123,7 +123,7 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
             return res.status(400).json({ message : error.message });
         }
         console.error(error);
-        res.status(500).json({ mesage : 'Error uploading details' });
+        res.status(500).json({ message : error.message });
     }
 });
 
