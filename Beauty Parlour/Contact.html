@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Parlour - Contact Us</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        
+        header {
+            background: #ff6f61;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .contact-info {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .contact-info h2 {
+            margin-top: 0;
+        }
+        
+        .info-item {
+            margin-bottom: 15px;
+        }
+        
+        .contact-form {
+            padding: 20px;
+        }
+        
+        .contact-form h2 {
+            margin-top: 0;
+        }
+        
+        .contact-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .contact-form input[type=text],
+        .contact-form input[type=email],
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc; /* Gray border */
+            border-radius: 4px; /* Rounded borders */
+            box-sizing: border-box; /* Ensure padding does not affect width */
+        }
+        
+        .contact-form textarea {
+            resize: vertical; /* Allow vertical resizing only */
+        }
+        
+        .contact-form button {
+            background-color: #ff6f61; /* Button color */
+            color: white; /* Text color */
+            border: none; /* No border */
+            padding: 10px; /* Padding for button */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+        
+        .contact-form button:hover {
+            background-color: #e65c50; /* Darker shade on hover */
+        }
+        
+        footer {
+            text-align: center; /* Centered footer text */
+            padding: 20px 0; /* Padding for footer */
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .info-item {
+                margin-bottom: 10px; /* Adjust spacing for smaller screens */
+                font-size: 14px; /* Adjust font size */
+            }
+        
+            .contact-form input[type=text],
+            .contact-form input[type=email],
+            .contact-form textarea,
+            .contact-form button {
+                font-size: 16px; /* Increase font size for better readability */
+                padding: 12px; /* Increase padding for touch targets */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Contact Us</h1>
+        <nav>
+            <ul>
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="Services.html">Services</a></li>
+                <li><a href="Booking.html">Book Now</a></li>
+                <li><a href="Contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-info">
+            <h2>Get in Touch</h2>
+            <p>If you have any questions or would like to book an appointment, feel free to reach out!</p>
+
+            <div class="info-item">
+                <h3>Phone:</h3>
+                <p>+91 91820 40248</p>
+            </div>
+
+            <div class="info-item">
+                <h3>Email:</h3>
+                <p>ramzpainaguppam@gmail.com</p>
+            </div>
+
+            <div class="info-item">
+                <h3>Address:</h3>
+                <p>Near Prabhas College, Kedhareswaripeta, Vijayawada-520003, Andhra Pradesh, INDIA</p>
+            </div>
+
+        </section>
+
+        <section class="contact-form">
+            <h2>Contact Form</h2>
+            <form id="contactForm">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Beauty Parlour. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Parlour Slot Booking</title>
+    <style>
+    *{
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    
+    header {
+        background: #ff6f61;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+    }
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    nav ul li {
+        display: inline;
+        margin-right: 20px;
+    }
+    
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+    }
+    main {
+        padding: 20px;
+    }
+    
+    .booking-form {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    h2 {
+        margin-top: 0;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    input[type=text],
+    input[type=email],
+    input[type=date],
+    input[type=time],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    
+    button {
+        background-color: #ff6f61;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #e65c50;
+    }
+    
+    footer {
+        text-align: center;
+        padding: 20px 0;
+    }
+</style>
+</head>
+<body>
+    <header>
+        <h1>Beauty Parlour Slot Booking</h1>
+        <nav>
+            <ul>
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="Services.html">Services</a></li>
+                <li><a href="Booking.html">Book Now</a></li>
+                <li><a href="Contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="booking-form">
+            <h2>Book Your Slot</h2>
+            <form id="slotBookingForm">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="service">Select Service:</label>
+                <select id="service" name="service" required>
+                    <option value="">--Choose a Service--</option>
+                    <option value="haircut">Haircut</option>
+                    <option value="facial">Facial</option>
+                    <option value="manicure">Manicure</option>
+                    <option value="pedicure">Pedicure</option>
+                </select>
+
+                <label for="date">Select Date:</label>
+                <input type="date" id="date" name="date" required>
+
+                <label for="time">Select Time:</label>
+                <input type="time" id="time" name="time" required>
+
+                <button type="submit">Book Now</button>
+            </form>
+        </section>
+
+        <section class="confirmation-message" id="confirmationMessage"></section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Beauty Parlour. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
