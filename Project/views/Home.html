@@ -29,25 +29,39 @@
             width: 99%;
         }
         nav {
-            left: 30%;
-            justify-content: space-evenly;
             position: relative;
             align-items: center;
             background: none;
             overflow: hidden;
-        }
+            display: flex;
+        } 
         nav a {
-            position: relative;
-            float : left;
+            position: inherit;
+            left : 37%;
             display: block;
             color: white;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
+            transition: ease-out .3s;
         }
         nav a:hover {
-            background-color: #575757;
-            border-radius: 5px;
+            border-radius: 5%;
+            background-color: #5e5667;
+        }
+        nav button{
+            width: 55px;
+            height: 30px;
+            color: white;
+            background: none;
+            border: none;
+            position: relative;
+            left: 45%;
+            transition: ease-out .5s;
+        }
+        nav button:hover{
+            border-radius: 20%;
+            background: rgb(39, 17, 79);
         }
         section {
             padding: 20px;

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Records - Person Management System</title>
     <script src="../script.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
         *{
@@ -27,23 +28,39 @@
             width: 99%;
         }
         nav {
-            left: 30%;
-            justify-content: space-evenly;
             position: relative;
             align-items: center;
             background: none;
             overflow: hidden;
+            display: flex;
         } 
         nav a {
-            float: left;
+            position: inherit;
+            left : 37%;
             display: block;
             color: white;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
+            transition: ease-out .3s;
         }
         nav a:hover {
-            background-color: #575757;
+            border-radius: 5%;
+            background-color: #5e5667;
+        }
+        nav button{
+            width: 55px;
+            height: 30px;
+            color: white;
+            background: none;
+            border: none;
+            position: relative;
+            left: 45%;
+            transition: ease-out .5s;
+        }
+        nav button:hover{
+            border-radius: 20%;
+            background: rgb(39, 17, 79);
         }
         section {
             padding: 20px;
@@ -76,23 +93,35 @@
             width:70%;
             left: 15%;
         }
-        .recordlist{
-            left: 15%;
-            display: flex;
+        .recordslist{
+            position : absolute;
+            left: 20% ;
+            width : 80%;
+        }
+        .recordslist h1{
+            position : relative;
+            left : 30%;
         }
         .pic {
-            width: 200px; /* Adjust the width as needed */
-            height: 200px; /* Maintain aspect ratio */
-            border-radius: 50%; /* Circular photo */
+            width: 200px; 
+            height: 200px; 
+            border-radius: 50%; 
             overflow: hidden;
-            margin-right: 40px; /* Space between photo and details */
+            margin-right: 40px; 
         }
         .pic img{
             width: 200px;
             height: 200px;
         }
         .details {
-            flex-grow: 1; /* Allow details to take up remaining space */
+            flex-grow: 1; 
+        }
+        .fields{
+            color:#0d2108;
+            position: absolute;
+            width: 100px;
+            left: 5%;
+
         }
     </style>
 </head>
@@ -111,6 +140,15 @@
 
     <!-- Show Records Section -->
     <section>
+        <form class="fields">
+            <label for="fields"><h3>Sort by <i class='bx bx-sort-a-z' ></i> </h3></label>
+            <select id="fields" name="fields">
+                <option value="name">Name</option>
+                <option value="dob">Date Of Birth</option>
+                <option value="email">E-Mail</option>
+                <option value="_id" selected>Default</option>
+            </select>
+        </form>
         <div class="recordslist">
         </div>
     </section>
@@ -121,14 +159,14 @@
     </footer>
     <script>
         const holder = document.getElementsByClassName("recordslist")[0];
-        async function getData(){
-            await valid();
+        async function getData(field = '_id'){
+            valid();
             try{
                 const email = localStorage.getItem('email');
                 const response = await fetch('http://localhost:5000/getRecords',  {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body : JSON.stringify({ email : email })
+                    body : JSON.stringify({ email : email, field : field })
                 });
                 const data = await response.json();
                 if(data.message === 'Empty'){
@@ -192,6 +230,9 @@
                 console.error(error);
             }
     }
+    document.getElementById('fields').addEventListener('change', (event) => {
+        getData(document.getElementById('fields').value);
+    })
     </script>
 </body>
 </html>

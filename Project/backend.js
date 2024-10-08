@@ -5,24 +5,12 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cors = require('cors');
-const fs = require('fs');
 const { Record, Logins, User } = require('./models/models');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const storage = multer.memoryStorage();
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 5 * 1024 * 1024 
-    },
-    fileFilter: (req, file, cb) => {
-        if (!file.mimetype.startsWith('image/')) {
-            return cb(new Error('Only image files are allowed!'), false);
-        }
-        cb(null, true);
-    }
-});
+const upload = multer({ storage: storage });
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -98,6 +86,12 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
     const {name, dob, email, phone, user} = req.body;
     try{
         console.log('Attempt to add record');
+        if(!req.file.mimetype.startsWith('image/')){
+            return res.status(400).json({ message : 'Only image files are allowed ' });
+        }
+        if(req.file.size > 2 * 1024 * 1024){
+            return res.status(400).json({ message : 'Image size should be less than 2 MB' });
+        }
         const record1 = await Record.findOne({ email : email });  
         if(record1){
             return res.status(400).json({ message : 'Email already exists with different person' });
@@ -116,21 +110,15 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
         return res.status(200).json({ message : 'Insertion successful' });
     }
     catch(error){
-        if (error instanceof multer.MulterError) {
-            if(error.code === 'LIMIT_FILE_SIZE'){
-                return res.status(400).json({ message : 'Pic size exceed 5 MB' });
-            }
-            return res.status(400).json({ message : error.message });
-        }
         console.error(error);
-        res.status(500).json({ message : error.message });
+        return res.status(500).json({ message : 'Server error' });
     }
 });
 
 app.post('/getRecords', async (req,res) => {
     try{
         console.log('Retrieval attempt');
-        const records = await Record.find({ username : req.body.email });
+        const records = await Record.find({ username : req.body.email }).sort(req.body.field);
         if(! records.length){
             console.log('Empty');
             return res.status(404).json({ message : 'Empty' });
