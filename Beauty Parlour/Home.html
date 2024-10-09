@@ -55,26 +55,60 @@
             background-color: #e65c50;
         }
         
-        .services, .testimonials, .footer-cta {
+        .services-container {
             padding: 20px;
         }
         
-        .service-item {
+        .services {
+            max-height: 300px; 
+            overflow-y: auto; 
             background-color: white;
-            margin-bottom: 15px;
+            border-radius: 5px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+        
+        .service-item {
             padding: 15px;
-            border-radius: 5px;
+            border-bottom: 1px solid #eee; 
         }
         
-        blockquote {
-            border-left: 4px solid #ff6f61;
-            margin: 10px 0;
-            padding-left: 10px;
+        .service-item:last-child {
+            border-bottom: none; 
         }
         
-        footer {
+        .footer-cta {
             text-align: center;
-            padding: 20px 0;
+            padding: 20px;
+        }
+        
+        .footer-contact {
+            background-color: #ff6f61; 
+            color: white; 
+            padding: 20px;
+            text-align: center; 
+        }
+        
+        .info-item {
+            margin-bottom: 10px; 
+        }
+
+        @media (max-width: 768px) {
+            .service-item {
+                padding: 10px; 
+                font-size: 14px; 
+            }
+        
+            .cta-button {
+                padding: 8px 16px; 
+                font-size: 14px; 
+            }
+        
+            .footer-contact h2,
+            .footer-contact p,
+            .info-item {
+                font-size: 16px; 
+                margin-bottom: 5px; 
+            }
         }
     </style>
 </head>
@@ -84,9 +118,7 @@
         <nav>
             <ul>
                 <li><a href="Home.html">Home</a></li>
-                <li><a href="Services.html">Services</a></li>
                 <li><a href="Booking.html">Book Now</a></li>
-                <li><a href="Contact.html">Contact Us</a></li>
             </ul>
         </nav>
     </header>
@@ -95,40 +127,64 @@
         <section class="hero">
             <h2>Your Beauty, Our Passion</h2>
             <p>Experience the best beauty treatments with our professional team.</p>
-            <a href="booking.html" class="cta-button">Book an Appointment</a>
+            <a href="Booking.html" class="cta-button">Book an Appointment</a>
         </section>
 
-        <section class="services">
+        <section class="services-container">
             <h2>Our Services</h2>
-            <div class="service-item">
-                <h3>Haircut</h3>
-                <p>Stylish haircuts that suit your personality.</p>
+            <div class="services">
+                <div class="service-item">
+                    <h3>Haircut</h3>
+                    <p>Stylish haircuts that suit your personality.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Facial</h3>
+                    <p>Revitalize your skin with our luxurious facials.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Manicure & Pedicure</h3>
+                    <p>Pamper your hands and feet with our expert care.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Waxing</h3>
+                    <p>Experience smooth skin with our professional waxing services.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Makeup Application</h3>
+                    <p>Get ready for any occasion with our professional makeup application services.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Massage Therapy</h3>
+                    <p>Relax and unwind with our soothing massage therapy sessions.</p>
+                </div>
             </div>
-            <div class="service-item">
-                <h3>Facial</h3>
-                <p>Revitalize your skin with our luxurious facials.</p>
-            </div>
-            <div class="service-item">
-                <h3>Manicure & Pedicure</h3>
-                <p>Pamper your hands and feet with our expert care.</p>
-            </div>
-        </section>
-
-        <section class="testimonials">
-            <h2>What Our Clients Say</h2>
-            <blockquote>"The best beauty experience I've ever had! Highly recommend!" - Vinay.T .</blockquote>
-            <blockquote>"Professional staff and wonderful ambiance." - Goutham.M .</blockquote>
         </section>
 
         <section class="footer-cta">
             <h2>Ready to Shine?</h2>
             <p>Book your appointment today and let us take care of you!</p>
-            <a href="booking.html" class="cta-button">Book Now</a>
+            <a href="Booking.html" class="cta-button">Book Now</a>
         </section>
 
     </main>
 
-    <footer>
+    <!-- Footer Section -->
+    <footer class="footer-contact">
+        <h2>Contact Us</h2>
+        <p>If you have any questions or would like to book an appointment, feel free to reach out!</p>
+
+        <div class="info-item">
+            <strong>Phone:</strong> +91 91820 40248
+        </div>
+
+        <div class="info-item">
+            <strong>Email:</strong> ramzpainaguppam@gmail.com
+        </div>
+
+        <div class="info-item">
+            <strong>Address:</strong> Near Prabhas College, Kedhareshwaripeta, Vijayawada-520003, Andhra Pradesh, India.
+        </div>
+
         <p>&copy; 2024 Beauty Parlour. All rights reserved.</p>
     </footer>
 
