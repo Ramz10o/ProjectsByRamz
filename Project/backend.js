@@ -164,6 +164,7 @@ app.post('/logout', async (req, res) => {
             if(! record){
                 return res.status(404).json({ message : 'No Records found' });
             }
+            console.log('Records found successfully');
             return res.status(200).json(record);
         }
         catch(error){
