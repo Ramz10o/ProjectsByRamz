@@ -5,39 +5,28 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cors = require('cors');
-const { Record, Logins, User } = require('./models/models');
+require('dotenv').config();
+const { Record, Login } = require('./models/models');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
+const URI = "mongodb://localhost:27017/UserData";
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+const logout = (async () => {
+    await Login.findOneAndUpdate({isLoggedIn : true},{isLoggedIn : false});
+});
+const login = (async () => {
+    await Login.findOneAndUpdate({isLoggedIn : false},{isLoggedIn : true});
+}); 
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('uploads'));
 
-mongoose.connect("mongodb://localhost:27017/UserData", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error(err));
-
-app.post('/signup', async (req, res) => {
-    const { username, email, password } = req.body;
-    try {
-        console.log('Sign Up attempt');
-        const existingUser = await User.findOne({ email : email });
-        if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ name : username, email : email, password : hashedPassword })
-        await user.save();
-        console.log('Sign Up Successful');
-        res.status(201).json({ message: 'User created successfully' });
-    } catch (error) {
-        res.status(500).json({ message: 'Server error' });
-    }
-});
-
 
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -51,8 +40,7 @@ app.post('/login', async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
-        const login = new Logins({ email : user.email, message : 'welcome' });
-        await login.save();
+        login();
         const token = jwt.sign({ userId: user._id }, 'CODM is best mobile fps game',{ expiresIn: '1h' });
         console.log('Login Successful');
         return res.status(200).json({ message : 'Login Successful', token, email : user.email });
@@ -118,8 +106,8 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
 app.post('/getRecords', async (req,res) => {
     try{
         console.log('Retrieval attempt');
-        const records = await Record.find({ username : req.body.email }).sort(req.body.field);
-        if(! records.length){
+        const records = await Record.find({}).sort(req.body.field);
+        if(! records){
             console.log('Empty');
             return res.status(404).json({ message : 'Empty' });
         }
@@ -135,12 +123,11 @@ app.post('/getRecords', async (req,res) => {
 app.post('/deleteRecord', async (req,res) => {
     try{
         console.log('Deletion initiated');
-        console.log(req.body.delid);
         const record = await Record.findOne({ email : req.body.delid });
         if(! record){
             return res.status(404).json({ message : 'Record not found' });
         }
-        await Record.findOneAndDelete({email : req.body.delid });
+        await Record.findOneAndDelete({ email : req.body.delid });
         console.log('Record deleted successfully');
         return res.status(200).json({ message : 'Record deleted successfully' });
     }
@@ -153,14 +140,12 @@ app.post('/deleteRecord', async (req,res) => {
 app.post('/logout', async (req, res) => {
         try{
             console.log('Logout attempt')
-            const user = await Logins.findOne({ email : req.body.email });
+            const user = await Login.findOne({ isLoggedIn : true });
             if (!user) {
                 return res.status(400).json({ message : 'No login found' });
             }
-            await Logins.deleteOne({ email : user.email });
+            logout();
             console.log(`Logout Successful`); 
-            const name =await User.findOne({ email : req.body.email });
-            console.log(`Bye ${name.name}`);
             return res.status(200).json({ message: 'Logout successful' });
         }
         catch (error){
@@ -169,25 +154,24 @@ app.post('/logout', async (req, res) => {
         }
     });
 
-const delAll = (async () => {
-    await Logins.deleteMany({});
-}); delAll();
+    app.post('/find', async (req,res) => {
+        try{
+            console.log('Find initiated');
+            const record = await Record.findOne({ email : req.body.email });
+            if(! record){
+                return res.status(404).json({ message : 'Record not found' });
+            }
+            return res.status(200).json(record);
+        }
+        catch(error){
+            console.error(error);
+            return res.status(500).json({ message : 'Error finding record' });
+        }
+    });
+
+logout();
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-});
-
-app.post('/find', async (req,res) => {
-    try{
-        console.log('Find initiated');
-        const record = await Record.findOne({ email : req.body.email });
-        if(! record){
-            return res.status(404).json({ message : 'Record not found' });
-        }
-        return res.status(200).json(record);
-    }
-    catch(error){
-        console.error(error);
-        return res.status(500).json({ message : 'Error finding record' });
-    }
 });
