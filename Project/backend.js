@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const cors = require('cors');
 require('dotenv').config();
-const { Record, Login } = require('./models/models');
+const { Records, Login } = require('./models/models');
 
 const app = express();
 const PORT = 5000;
@@ -32,7 +32,7 @@ app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
         console.log('Login attempt');
-        const user = await User.findOne({ email : email });
+        const user = await Login.findOne({ email : email });
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
@@ -43,7 +43,7 @@ app.post('/login', async (req, res) => {
         login();
         const token = jwt.sign({ userId: user._id }, 'CODM is best mobile fps game',{ expiresIn: '1h' });
         console.log('Login Successful');
-        return res.status(200).json({ message : 'Login Successful', token, email : user.email });
+        return res.status(200).json({ message : 'Login Successful', token });
     } catch (error) {
         console.error(error)
         return res.status(500).json({ message: 'Server error' });
@@ -52,16 +52,10 @@ app.post('/login', async (req, res) => {
 
 app.post('/valid', async (req,res) => {
     try{
-        const user = await Logins.findOne({ email : req.body.email });
+        const user = await Login.findOne({ isLoggedIn : true });
         if (!user) {
             return res.status(400).json({ message : 'Authentication error Login again' });
         } else {
-            if(user.message === 'welcome'){
-                await Logins.updateOne({ email : req.body.email }, { message : '' });
-                const user = await User.findOne({ email : req.body.email });
-                console.log(`Welcome ${user.name}`);
-                return res.status(200).json({ message : `Welcome ${user.name}` });
-            }
             return res.status(200).json({message : 'Done'});
         }
     }catch (error){
@@ -80,15 +74,15 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
         if(req.file.size > 2 * 1024 * 1024){
             return res.status(400).json({ message : 'Image size should be less than 2 MB' });
         }
-        const record1 = await Record.findOne({ email : email });  
+        const record1 = await Records.findOne({ email : email });  
         if(record1){
             return res.status(400).json({ message : 'Email already exists with different person' });
         }
-        const record2 = await Record.findOne({ phone : phone });  
+        const record2 = await Records.findOne({ phone : phone });  
         if(record2){
             return res.status(400).json({ message : 'Phone already exists with different person' });
         }
-        const details = new Record({ username : user, name : name, dob :  dob, email : email, phone : phone, 
+        const details = new Records({ username : user, name : name, dob :  dob, email : email, phone : phone, 
             pic : {
                 data : Buffer.from(req.file.buffer).toString('base64'),
                 extension : req.file.mimetype
@@ -106,8 +100,8 @@ app.post('/addRecord', upload.single('pic'), async (req,res) => {
 app.post('/getRecords', async (req,res) => {
     try{
         console.log('Retrieval attempt');
-        const records = await Record.find({}).sort(req.body.field);
-        if(! records){
+        const records = await Records.find({}).sort(req.body.field);
+        if(! records.length){
             console.log('Empty');
             return res.status(404).json({ message : 'Empty' });
         }
@@ -157,15 +151,16 @@ app.post('/logout', async (req, res) => {
     app.post('/find', async (req,res) => {
         try{
             console.log('Find initiated');
-            const query = req.body.query
-            const record = await Record.find({ $or: 
-                [{name : query}, {email : query}, {phone : query}, {dob : query} ] 
+            const query = req.body.query;
+            const records = await Records.find({ $or: 
+                [ {name : query}, {email : query}, {phone : query}, {dob : query} ] 
             });
-            if(! record){
+            if(! records.length){
+                console.log('Not Found');
                 return res.status(404).json({ message : 'No Records found' });
             }
-            console.log('Records found successfully');
-            return res.status(200).json(record);
+            console.log('find successful');
+            return res.status(200).json({ message : 'Found', records : records });
         }
         catch(error){
             console.error(error);

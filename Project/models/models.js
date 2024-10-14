@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Record = mongoose.model('Record', new mongoose.Schema({
+const Records = mongoose.model('Record', new mongoose.Schema({
     name : {type : String, required: true},
     dob : {type : String, required: true},
     email : {type : String, required: true},
@@ -13,7 +13,9 @@ const Record = mongoose.model('Record', new mongoose.Schema({
 
 const Login = mongoose.model('Logins', new mongoose.Schema({
     isLoggedIn : {type: Boolean, required: true},
-    message : { type: String, required: true },
+    name : {type: String, required: true},
+    email : {type: String, required: true},
+    password : {type: String, required: true},
 }), 'Login');
 
-module.exports = { Record, Login };
+module.exports = { Records, Login };
