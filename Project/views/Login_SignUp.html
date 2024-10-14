@@ -216,54 +216,24 @@
     </head>
 <body>
     <div class="container" id="container">
-        <div class="form-container sign-up">
-            <form id="signuppost">
-                <h1>Create Account</h1><br>
-                <input type="text" placeholder="Name" name="username" required>
-                <input type="email" placeholder="Email" name="email" required>
-                <input type="password" placeholder="Password" name="password" required>
-                <button typr="submit">Sign Up</button>
-                <a href="mailto:test@gmail.com">Contact me</a>
-            </form>
-        </div>
         <div class="form-container sign-in">
             <form id="loginpost">
                 <h1>Sign In</h1><br>
                 <input type="email" placeholder="Email" name="email" required>
                 <input type="password" placeholder="Password" name="password" required>
                 <button type="submit">Sign In</button>
-                <a href="mailto:aidsasec0@gmail.com">Contact me</a>
             </form>
         </div>
         <div class="toggle-container">
             <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <h1>Hello, Friend!</h1>
-                    <p>Register with your personal details to use all of site features</p><br>
-                    <p>Already hava an account ?</p>
-                    <button class="hidden" id="login">Sign In</button>
-                </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Welcome Back !</h1>
-                    <p>Enter your credentials to access your data</p><br>
-                    <p>Dont have an accout ?</p>
-                    <button class="hidden" id="register">Sign Up</button>
+                    <p>Enter your credentials to access your data</p><br                    
                 </div>
             </div>
         </div>
     </div>
     <script>
-        const container = document.getElementById('container');
-        const registerBtn = document.getElementById('register');
-        const loginBtn = document.getElementById('login');
-
-        registerBtn.addEventListener('click', () => {
-            container.classList.add("active");
-        });
-
-        loginBtn.addEventListener('click', () => {
-            container.classList.remove("active");
-        });
         document.getElementById('loginpost').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -289,34 +259,6 @@
                 alert('An error occurred. Please try again.');
             }
         });
-
-        // Handle Signup Form Submission
-        document.getElementById('signuppost').addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const username = e.target.username.value; 
-        const email = e.target.email.value; 
-        const password = e.target.password.value; 
-
-        try {
-            const response = await fetch('http://localhost:5000/signup', { 
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, email, password }),
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                alert('Signup successful! You can now log in.');
-            } else {
-                alert('Error signing up:' + data.message);
-            }
-
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
-        }
-    });
     </script>
 </body>
 </html>

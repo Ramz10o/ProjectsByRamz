@@ -81,6 +81,11 @@
             margin: 0;
             padding: 20px;
         }
+        .search{
+            position: absolute;
+            top: 22%;
+            right: 5%;
+        }
         .Record {
             display: flex;
             align-items: center;
@@ -94,25 +99,48 @@
         }
         .recordslist{
             position : relative;
-            left: 28% ;
-            min-width: 37%;;
-            width : fit-content;
+            width : 90%;
+            left : 5%;
         }
         .recordslist h1{
             width: fit-content;
             position : relative;
-            left : 32%;
+            left : 42%;
         }
-        .pic {
-            width: 200px; 
-            height: 200px; 
-            border-radius: 50%; 
+        img {
+            width: 100px; 
+            height: 100px; 
+            border-radius: 25%; 
             overflow: hidden;
             margin-right: 40px; 
         }
-        .pic img{
-            width: 200px;
-            height: 200px;
+        table{
+            border: solid black 3px;
+            width: 100%;
+            position: relative;
+        }
+        td{
+            text-align: center;
+            width: max-content;
+            height: fit-content;
+        }
+        tr td{
+            
+            border: solid black 1.5px;
+        }
+        th{
+            border: solid black 2px;
+            font-size: larger;
+            height: 70px;
+        }
+        button{
+            background: none;
+            border: none;
+            font-size: large;
+        }
+        .tableDiv{
+            width: 100%;
+            position: relative;
         }
         .details {
             flex-grow: 1; 
@@ -122,7 +150,6 @@
             position: absolute;
             width: 100px;
             left: 5%;
-
         }
     </style>
 </head>
@@ -134,6 +161,7 @@
         <nav>
             <a href="Home.html">Home</a>
             <a href="AddRecords.html">Add Person</a>
+            <a href="Search.html">Search</a>
             <a href="ShowRecords.html">Show Records</a>
             <button onclick="signout()">Logout</button>
         </nav>
@@ -141,20 +169,10 @@
 
     <!-- Show Records Section -->
     <section>
-        <form class="fields">
-            <label for="fields"><h3>Sort by <i class='bx bx-sort-a-z' ></i> </h3></label>
-            <select id="fields" name="fields">
-                <option value="name">Name</option>
-                <option value="dob">Date Of Birth</option>
-                <option value="email">E-Mail</option>
-                <option value="_id" selected>Default</option>
-            </select>
-        </form>
         <div class="recordslist">
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2024 Person Management System</p>
     </footer>
@@ -174,25 +192,29 @@
                     holder.innerHTML = `<h1>No records found.</h1>`;
                 }
                 else{
-                    let i = 0;
-                    holder.innerHTML = '<h1>Records List</h1><br>';
+                    let i = 1;
+                    holder.innerHTML = '<h1>Records List</h1><br><br><br>';
+                    let tableDiv=document.createElement('div')
+                    tableDiv.innerHTML=`<table class='records'><tbody>
+                        <tr>
+                        <th><button onclick='getData()'><b>S No.</b></button></th>
+                        <th><button onclick='getData("name")'><b>Name</b></button></th>
+                        <th><button onclick='getData("dob")'><b>Date Of Birth</b></button></th>
+                        <th><button onclick='getData("email")'><b>E-Mail</b></button></th>
+                        <th><button onclick='getData("phone")'><b>Phone Number</b></button></th>
+                        <th> Picture</th>
+                    </tr></tbody></table>`;
+                    holder.appendChild(tableDiv);
+                    const table=document.getElementsByClassName('records')[0].getElementsByTagName('tbody')[0];
                     data.records.forEach(item => {
-                        const div = document.createElement('div');
-                        div.className = 'Record';
-                        div.id = `div${i}`;
-                        div.innerHTML = `
-                        <div class = 'pic'>
-                        <img src = "data:${item.pic.extension};base64,${item.pic.data}" alt="${item.name}">
-                        </div>
-                        <div class = 'details'>
-                        <h3>Name : ${item.name}</h3><br>
-                        <p>DOB : ${item.dob}</p><br>
-                        <p>E-Mail : ${item.email}</p><br>
-                        <p>Phone : ${item.phone}</p><br><br>
-                        <button onclick = "del('div${i++}')">Delete</button><br>
-                        </div>`;
-                        holder.appendChild(div);
-                        if (i>1){
+                        const row=table.insertRow();
+                        row.insertCell(0).innerHTML=`${i++}`;
+                        row.insertCell(1).innerHTML=`${item.name}`;
+                        row.insertCell(2).innerHTML=`${item.dob}`;
+                        row.insertCell(3).innerHTML=`${item.email}`;
+                        row.insertCell(4).innerHTML=`${item.phone}`;
+                        row.insertCell(5).innerHTML=`<img src = "data:${item.pic.extension};base64,${item.pic.data}" alt="${item.name}">`;
+                        if (i>4){
                             const footer=document.getElementsByTagName('footer')[0];
                             footer.style.position='relative';
                         }
@@ -201,6 +223,7 @@
                             footer.style.position='absolute';
                         }
                     });
+                    
             }
         }
         catch(error){
