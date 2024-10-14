@@ -176,3 +176,18 @@ const delAll = (async () => {
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+app.post('/find', async (req,res) => {
+    try{
+        console.log('Find initiated');
+        const record = await Record.findOne({ email : req.body.email });
+        if(! record){
+            return res.status(404).json({ message : 'Record not found' });
+        }
+        return res.status(200).json(record);
+    }
+    catch(error){
+        console.error(error);
+        return res.status(500).json({ message : 'Error finding record' });
+    }
+});

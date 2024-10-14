@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Records</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }    
+        header, footer {
+            background: linear-gradient(to right, #5c6bc0, #512da8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 18px;
+        }
+        
+        footer{
+            bottom: 1%;
+            position: absolute;
+            width: 99%;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        nav {
+            position: relative;
+            align-items: center;
+            background: none;
+            overflow: hidden;
+            display: flex;
+        } 
+        nav a {
+            position: inherit;
+            left : 37%;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: ease-out .3s;
+        }
+        nav a:hover {
+            border-radius: 5%;
+            background-color: #5e5667;
+        }
+        nav button{
+            width: 55px;
+            height: 30px;
+            color: white;
+            background: none;
+            border: none;
+            position: relative;
+            left: 45%;
+            transition: ease-out .5s;
+        }
+        nav button:hover{
+            border-radius: 20%;
+            background: rgb(39, 17, 79);
+        }
+        section {
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #f9f9f9;
+            margin: 5px 0;
+            padding: 10px;
+            border-left: 5px solid #007BFF;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            margin: 0;
+            padding: 20px;
+        }
+        input[type="text"] {
+            width: 30%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="submit"]{
+            width:70px;
+            height: 35px;
+        }
+        form{
+            text-align: center;
+        }
+        h1{
+            text-align: center;
+        }
+        .recordslist{
+            position : relative;
+            width : 90%;
+            left : 5%;
+        }
+        .recordslist h1{
+            width: fit-content;
+            position : relative;
+            left : 42%;
+        }
+        .search{
+            border: none;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Person Management System</h1>
+        <nav>
+            <a href="Home.html">Home</a>
+            <a href="AddRecords.html">Add Person</a>
+            <a href="Search.html">Search</a>
+            <a href="ShowRecords.html">Show Records</a>
+            <button onclick="signout()">Logout</button>
+        </nav>
+    </header>
+    <br><br>
+    <h1>Search Records</h1><br>
+    <form class="search">
+    <input type="text" id="searchInput" placeholder="Search by Name, Date of Birth, or E-Mail" onkeyup="filterTable()">
+    <input type="submit">
+    </form>
+    <section>
+        <div class="recordlist">
+        </div>
+    </section>
+    <script>
+        const holder = document.getElementsByClassName("recordslist")[0];
+        async function getData(field = '_id'){
+            valid();
+            try{
+                const email = localStorage.getItem('email');
+                const response = await fetch('http://localhost:5000/find',  {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body : JSON.stringify({ email : email, field : field })
+                });
+                const data = await response.json();
+                if(data.message === 'Empty'){
+                    holder.innerHTML = `<h1>No records found.</h1>`;
+                }
+                else{
+                    let i = 1;
+                    holder.innerHTML = '<h1>Records List</h1><br><br><br>';
+                    let tableDiv=document.createElement('div')
+                    tableDiv.innerHTML=`<table class='records'><tbody>
+                        <tr>
+                        <th><b>S No.</b></th>
+                        <th><b>Name</b></th>
+                        <th><b>Date Of Birth</b></th>
+                        <th><b>E-Mail</b></th>
+                        <th><b>Phone Number</b></th>
+                        <th> Picture</th>
+                    </tr></tbody></table>`;
+                    holder.appendChild(tableDiv);
+                    const table=document.getElementsByClassName('records')[0].getElementsByTagName('tbody')[0];
+                    data.records.forEach(item => {
+                        const row=table.insertRow();
+                        row.insertCell(0).innerHTML=`${i++}`;
+                        row.insertCell(1).innerHTML=`${item.name}`;
+                        row.insertCell(2).innerHTML=`${item.dob}`;
+                        row.insertCell(3).innerHTML=`${item.email}`;
+                        row.insertCell(4).innerHTML=`${item.phone}`;
+                        row.insertCell(5).innerHTML=`<img src = "data:${item.pic.extension};base64,${item.pic.data}" alt="${item.name}">`;
+                        if (i>4){
+                            const footer=document.getElementsByTagName('footer')[0];
+                            footer.style.position='relative';
+                        }
+                        else{
+                            const footer=document.getElementsByTagName('footer')[0];
+                            footer.style.position='absolute';
+                        }
+                    });
+                    
+            }
+        }
+        catch(error){
+            console.error(error);
+            alert('Error retrieving records');
+        }
+    function filterTable() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        
+        if (input.length > 0) {
+            getData(input); 
+        } else {
+            document.getElementById("records").innerHTML = ""; 
+        }
+    }
+}
+    </script>
+</body>
+</html>
