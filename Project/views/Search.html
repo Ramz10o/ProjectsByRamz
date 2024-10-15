@@ -19,16 +19,15 @@
             text-align: center;
             padding: 10px 0;
             border-radius: 18px;
+            width: 100%;
         }
-        
         footer{
             bottom: 1%;
             position: absolute;
-            width: 99%;
         }
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            padding-top: .5%;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
         }
         nav {
             position: relative;
@@ -77,12 +76,6 @@
             margin: 5px 0;
             padding: 10px;
             border-left: 5px solid #007BFF;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-            margin: 0;
-            padding: 20px;
         }
         input[type="text"] {
             width: 30%;
@@ -150,6 +143,22 @@
             border: none;
             background: none;
         }
+        .delButton{
+            position: relative;
+            width: 100%;
+        }
+        .delButton td{
+            position: relative;
+            border: none;
+        }
+        .delButton button{
+            position: relative;
+            border: solid black 1px;
+            border-radius: 15%;;
+        }
+        .delButton button:hover{
+            color: #544268;
+        }
     </style>
 </head>
 <body onload="valid()">
@@ -167,7 +176,7 @@
 
     <h1>Search Records</h1><br>
     <form class="search">
-        <input type="text" id="searchInput" placeholder="Search by Name, Date of Birth, E-Mail, or Phone Number" required>
+        <input type="text" id="searchInput" placeholder="Search by Name, Date of Birth(yyyy-mm-dd), E-Mail, or Phone Number" required>
         <button type="submit">Search</button>
     </form>
 
@@ -200,7 +209,7 @@
                 }
                 else{
                     let i = 1;
-                    holder.innerHTML = '<h1>Records List</h1><br><br><br>';
+                    holder.innerHTML = '<h1>Records Found</h1><br><br><br>';
                     let tableDiv=document.createElement('div');
                     tableDiv.innerHTML=`<table class='records'><tbody>
                         <tr>
@@ -215,14 +224,19 @@
                     const table=document.getElementsByClassName('records')[0].getElementsByTagName('tbody')[0];
                     data.records.forEach(item => {
                         const row=table.insertRow();
-                        row.id = `${item.email}`;
-                        row.insertCell(0).innerHTML=`${i++}`;
+                        row.id = `row${i}`;
+                        row.insertCell(0).innerHTML=`${i}`;
                         row.insertCell(1).innerHTML=`${item.name}`;
                         row.insertCell(2).innerHTML=`${item.dob}`;
                         row.insertCell(3).innerHTML=`${item.email}`;
                         row.insertCell(4).innerHTML=`${item.phone}`;
                         row.insertCell(5).innerHTML=`<img src = "data:${item.pic.extension};base64,${item.pic.data}" alt="${item.name}">`;
-                        if (i>4){
+                        const row2=table.insertRow();
+                        row2.className = 'delButton';
+                        const cell = row2.insertCell(0);
+                        cell.innerHTML=`<button onclick="del('row${i++}')">Delete</button>`;
+                        cell.colSpan = 6;
+                        if (i>2){
                             const footer=document.getElementsByTagName('footer')[0];
                             footer.style.position='relative';
                         }

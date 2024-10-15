@@ -20,12 +20,15 @@
             text-align: center;
             padding: 10px 0;
             border-radius: 18px;
+            width: 100%;
         }
-        
+        body {
+            padding-top: .5%;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        }
         footer{
-            bottom: 1%;
             position: absolute;
-            width: 99%;
+            bottom: 1%;
         }
         nav {
             position: relative;
@@ -75,12 +78,6 @@
             padding: 10px;
             border-left: 5px solid #007BFF;
         }
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-            margin: 0;
-            padding: 20px;
-        }
         .recordslist{
             position : relative;
             width : 90%;
@@ -92,6 +89,8 @@
             left : 42%;
         }
         img {
+            position: relative;
+            left: 10%; 
             width: 100px; 
             height: 100px; 
             border-radius: 25%; 
@@ -108,8 +107,12 @@
             width: max-content;
             height: fit-content;
         }
+        tr{
+            position: relative;
+            padding-top: 10%;
+            padding-bottom:10% ;
+        }
         tr,td{
-            
             border: solid black 1.5px;
         }
         th{
@@ -122,18 +125,30 @@
             border: none;
             font-size: large;
         }
+        table button:hover{
+            color: #544268;
+        }
         .tableDiv{
             width: 100%;
             position: relative;
         }
-        .details {
-            flex-grow: 1; 
+        .delButton{
+            position: relative;
+            width: 100%;
+        }
+        .delButton td{
+            position: relative;
+            border: none;
+        }
+        .delButton button{
+            position: relative;
+            border: solid black 1px;
+            border-radius: 15%;;
         }
     </style>
 </head>
 <body onload="getData()">
 
-    <!-- Header -->
     <header>
         <h1>Person Management System</h1>
         <nav>
@@ -156,7 +171,7 @@
     <script>
         const holder = document.getElementsByClassName("recordslist")[0];
         async function getData(field = '_id'){
-            valid();
+            if(! await valid()) return;
             try{
                 const response = await fetch('http://localhost:5000/getRecords',  {
                     method: 'POST',
@@ -184,13 +199,19 @@
                     const table=document.getElementsByClassName('records')[0].getElementsByTagName('tbody')[0];
                     data.records.forEach(item => {
                         const row=table.insertRow();
-                        row.insertCell(0).innerHTML=`${i++}`;
+                        row.id = `row${i}`;
+                        row.insertCell(0).innerHTML=`${i}`;
                         row.insertCell(1).innerHTML=`${item.name}`;
                         row.insertCell(2).innerHTML=`${item.dob}`;
                         row.insertCell(3).innerHTML=`${item.email}`;
                         row.insertCell(4).innerHTML=`${item.phone}`;
                         row.insertCell(5).innerHTML=`<img src = "data:${item.pic.extension};base64,${item.pic.data}" alt="${item.name}">`;
-                        if (i>4){
+                        const row2=table.insertRow();
+                        row2.className = 'delButton';
+                        const cell = row2.insertCell(0);
+                        cell.innerHTML=`<button onclick="del('row${i++}')">Delete</button>`;
+                        cell.colSpan = 6;
+                        if (i>3){
                             const footer=document.getElementsByTagName('footer')[0];
                             footer.style.position='relative';
                         }
@@ -204,32 +225,11 @@
         }
         catch(error){
             console.error(error);
+            if(error)
             alert('Error retrieving records');
         }
     }
-    async function del(id){
-        try{
-            const delid = document.getElementById(id).getElementsByTagName('p')[1].innerHTML.slice(9,);
-            const email = localStorage.getItem('email');
-            const response = await fetch('http://localhost:5000/deleteRecord', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body : JSON.stringify({ email : email, delid : delid })
-                });
-                const msg = await response.json();
-                if(response.ok){
-                    alert(msg.message);
-                    getData();
-                }
-                else{
-                    alert('Record does not exist');
-                }
-            }
-            catch(error){
-                alert('Error deleting record');
-                console.error(error);
-            }
-    }
+
     </script>
 </body>
 </html>

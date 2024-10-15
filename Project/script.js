@@ -1,16 +1,14 @@
 async function signout(){
     try {
-        const email = localStorage.getItem('email');
         const response = await fetch('http://localhost:5000/logout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }),
         });
 
         const msg = await response.json();
         if (response.ok) {
             alert(msg.message);
-            localStorage.removeItem('email');
+            sessionStorage.setItem('isLoggedIn',false);
             window.location.href = './Login.html';
         } else {
             window.alert('Error logging out : ' + msg.message);
@@ -21,20 +19,49 @@ async function signout(){
       }
     }
 
-async function valid(){
-        try {
-            const email = localStorage.getItem('email');
-            const response = await fetch('http://localhost:5000/valid', {
+async function del(id){
+        try{
+            const delid = document.getElementById(id).getElementsByTagName('td')[3].innerHTML;
+            const response = await fetch('http://localhost:5000/deleteRecord', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email }),
-            });
-    
-            const msg = await response.json();
-            if (! response.ok){
-                alert(msg.message);
-                window.location.href = './Login.html';
+                body : JSON.stringify({ delid : delid })
+                });
+                const msg = await response.json();
+                if(response.ok){
+                    alert(msg.message);
+                    getData(field);
+                }
+                else{
+                    alert('Record does not exist');
+                }
             }
+            catch(error){
+                alert('Error deleting record');
+                console.error(error);
+            }
+    }
+
+async function valid(){
+        try {
+            console.log(sessionStorage.getItem('isLoggedIn') === 'false');
+            if(sessionStorage.getItem('isLoggedIn') === 'false'){
+                alert('Authentication error please login again !');
+                window.location.href = './Login.html';
+                return false;
+            }
+            else{
+                const response = await fetch('http://localhost:5000/valid', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                if(!response.ok){
+                    alert('Authentication error please login again !');
+                    window.location.href = './Login.html';
+                    return false;
+                }
+            } 
+            return true;
         } catch (err) {
             console.error(err);
             alert('Error loading page');

@@ -217,6 +217,7 @@
                 const data = await response.json();
                 if (response.ok) {
                     alert(data.message);
+                    sessionStorage.setItem('isLoggedIn',true);
                     window.location.href = './Home.html';
                 } else {
                     alert('Error logging in:' + data.message);
