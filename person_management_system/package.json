@@ -1,5 +1,5 @@
 {
-  "name": "Project",
+  "name": "person_management_system",
   "version": "1.0.0",
   "main": "backend.js",
   "scripts": {
