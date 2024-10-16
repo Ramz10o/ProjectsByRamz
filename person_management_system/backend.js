@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cors = require('cors');
-require('dotenv').config();
 const { Records, Login } = require('./models/models');
 
 const app = express();
