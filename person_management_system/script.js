@@ -30,7 +30,9 @@ async function del(id){
                 const msg = await response.json();
                 if(response.ok){
                     alert(msg.message);
-                    getData(field);
+                    if(document.getElementById('searchInput')){
+                        getData(document.getElementById('searchInput').value);
+                    }
                 }
                 else{
                     alert('Record does not exist');
