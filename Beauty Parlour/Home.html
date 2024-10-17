@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beauty Parlour - Home</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-        
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-image: url('file:///C:/Users/sunny/OneDrive/Documents/GitHub/ProjectCheskoMowa/Beauty%20Parlour/Beauty%20parlour.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
         
         header {
-            background: #ff6f61;
-            color: white;
+            background-color:  #00000088;
+            color: #ff6f61;
             padding: 20px 0;
             text-align: center;
         }
@@ -34,12 +34,20 @@
         }
         
         nav ul li a {
-            color: white;
+            color: #ff6f61;
             text-decoration: none;
         }
-        
+        h2{
+            color: white;
+        }
+        h3{
+            color: #0091ff;
+        }
+        p{
+            color: #fff700;
+        }
         .hero {
-            background: #ffe6e6;
+            background-color: #00000088;
             padding: 40px 20px;
             text-align: center;
         }
@@ -60,29 +68,37 @@
         }
         
         .services {
-            max-height: 300px; 
-            overflow-y: auto; 
-            background-color: white;
-            border-radius: 5px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            max-height: 300px;
+            background-color: #00000088;
+            border-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgb(0, 0, 0);
+            min-height: fit-content;
+            width: auto;
         }
         
         .service-item {
             padding: 15px;
-            border-bottom: 1px solid #eee; 
+            border-bottom: 1px solid #eee;
         }
         
         .service-item:last-child {
-            border-bottom: none; 
+            border-bottom: none;
         }
         
+        footer {
+            background-color: #ff6f61;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
         .footer-cta {
             text-align: center;
             padding: 20px;
         }
         
         .footer-contact {
-            background-color: #ff6f61; 
+            background-color:  #00000088; 
             color: white; 
             padding: 20px;
             text-align: center; 
@@ -91,27 +107,27 @@
         .info-item {
             margin-bottom: 10px; 
         }
-
+        
+        /* Responsive design (adjust as needed) */
         @media (max-width: 768px) {
             .service-item {
-                padding: 10px; 
-                font-size: 14px; 
+                padding: 10px;
+                font-size: 14px;
             }
         
             .cta-button {
-                padding: 8px 16px; 
-                font-size: 14px; 
+                padding: 8px 16px;
+                font-size: 14px;
             }
         
-            .footer-contact h2,
-            .footer-contact p,
+            .footer h2,
+            .footer p,
             .info-item {
-                font-size: 16px; 
-                margin-bottom: 5px; 
+                font-size: 16px;
+                margin-bottom: 2px;
             }
         }
     </style>
-</head>
 <body>
     <header>
         <h1>Welcome to Our Beauty Parlour</h1>
@@ -160,17 +176,8 @@
             </div>
         </section>
 
-        <section class="footer-cta">
-            <h2>Ready to Shine?</h2>
-            <p>Book your appointment today and let us take care of you!</p>
-            <a href="Booking.html" class="cta-button">Book Now</a>
-        </section>
-
-    </main>
-
-    <!-- Footer Section -->
-    <footer class="footer-contact">
-        <h2>Contact Us</h2>
+        <footer class="footer-contact">
+            <h2>Contact Us</h2>
         <p>If you have any questions or would like to book an appointment, feel free to reach out!</p>
 
         <div class="info-item">
@@ -186,8 +193,7 @@
         </div>
 
         <p>&copy; 2024 Beauty Parlour. All rights reserved.</p>
-    </footer>
-
-    <script src="script.js"></script>
+        </footer>
+    </main>
 </body>
 </html>
