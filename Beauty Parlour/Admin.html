@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Parlour Admin Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Beauty Parlour Admin Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="#appointments">Manage Appointments</a></li>
+                <li><a href="#services">Manage Services</a></li>
+                <li><a href="#customers">Manage Customers</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="appointments">
+            <h2>Manage Appointments</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Service</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="appointment-list">
+                    <!-- Dynamic appointment rows will be inserted here -->
+                </tbody>
+            </table>
+            <button onclick="showAddAppointmentForm()">Add New Appointment</button>
+
+            <!-- Add Appointment Form -->
+            <div id="add-appointment-form" style="display:none;">
+                <h3>Add New Appointment</h3>
+                <form id="new-appointment-form">
+                    <label for="full-name">Full Name:</label><br>
+                    <input type="text" id="full-name" required><br>
+
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" required><br>
+
+                    <label for="service">Select Service:</label><br>
+                    <select id="service" required>
+                        <option value="">--Choose a Service--</option>
+                        <option value="Haircut">Haircut - ₹100</option>
+                        <option value="Facial">Facial - ₹1500</option>
+                        <option value="Manicure">Manicure - ₹1000</option>
+                        <option value="Pedicure">Pedicure - ₹1000</option>
+                        <option value="Waxing">Waxing - ₹600</option>
+                        <option value="Makeup Application">Makeup Application - ₹2000</option>
+                        <option value="Massage Therapy">Massage Therapy - ₹900</option>
+                    </select><br>
+
+                    <label for="date">Select Date:</label><br>
+                    <input type="date" id="date" required><br>
+
+                    <label for="time">Select Time:</label><br>
+                    <input type="time" id="time" required><br>
+
+                    <button type="submit">Book Now</button>
+                </form>
+            </div>
+
+        </section>
+
+        <section id="services">
+            <h2>Manage Services</h2>
+            <section id="services">
+                <h2>Manage Services</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="service-list">
+                        <tr>
+                            <td>Haircut</td>
+                            <td>₹100</td>
+                            <td>
+                                <button onclick="editService('Haircut')">Edit</button>
+                                <button onclick="deleteService('Haircut')">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Facial</td>
+                            <td>₹1500</td>
+                            <td>
+                                <button onclick="editService('Facial')">Edit</button>
+                                <button onclick="deleteService('Facial')">Delete</button>
+                            </td>
+                        </tr>
+                    
+                    </tbody>
+                </table>
+            
+                <button onclick="showAddServiceForm()">Add New Service</button>
+            
+                <!-- Add Service Form -->
+                <div id="add-service-form" style="display:none;">
+                    <h3>Add New Service</h3>
+                    <form id="new-service-form">
+                        <label for="service-name">Service Name:</label><br>
+                        <input type="text" id="service-name" required><br>
+            
+                        <label for="service-price">Price:</label><br>
+                        <input type="number" id="service-price" required><br>
+            
+                        <button type="submit">Add Service</button>
+                    </form>
+                </div>
+            
+                <!-- Edit Service Form -->
+                <div id="edit-service-form" style="display:none;">
+                    <h3>Edit Service</h3>
+                    <form id="update-service-form">
+                        <label for="edit-service-name">Service Name:</label><br>
+                        <input type="text" id="edit-service-name" required><br>
+            
+                        <label for="edit-service-price">Price:</label><br>
+                        <input type="number" id="edit-service-price" required><br>
+            
+                        <button type="submit">Update Service</button>
+                    </form>
+                </div>
+            
+            </section>
+            
+        </section>
+
+        <section id="customers">
+            <h2>Manage Customers</h2>
+            <section id="customers">
+                <h2>Manage Customers</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customer-list">
+                        <!-- Example customer rows -->
+                        <tr>
+                            <td>John Doe</td>
+                            <td>john@example.com</td>
+                            <td>
+                                <button onclick="viewCustomerDetails('John Doe')">View Details</button>
+                                <button onclick="deleteCustomer('John Doe')">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jane Smith</td>
+                            <td>jane@example.com</td>
+                            <td>
+                                <button onclick="viewCustomerDetails('Jane Smith')">View Details</button>
+                                <button onclick="deleteCustomer('Jane Smith')">Delete</button>
+                            </td>
+                        </tr>
+                        <!-- Additional customer rows can be added here -->
+                    </tbody>
+                </table>
+            
+                <!-- Add Customer Form -->
+                <div id="add-customer-form" style="display:none;">
+                    <h3>Add New Customer</h3>
+                    <form id="new-customer-form">
+                        <label for="customer-name">Full Name:</label><br>
+                        <input type="text" id="customer-name" required><br>
+            
+                        <label for="customer-email">Email:</label><br>
+                        <input type="email" id="customer-email" required><br>
+            
+                        <button type="submit">Add Customer</button>
+                    </form>
+                </div>
+            
+                <!-- Button to show the add customer form -->
+                <button onclick="showAddCustomerForm()">Add New Customer</button>
+            
+    
+            
+            </section>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Beauty Parlour. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript to handle form actions -->
+    <script>
+
+    <!-- Example script.js content -->
+    
+    function showAddAppointmentForm() {
+        document.getElementById('add-appointment-form').style.display = 'block';
+    }
+
+    document.getElementById('new-appointment-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Logic to add appointment to the list
+    });
+
+    
+    function showAddServiceForm() {
+        document.getElementById('add-service-form').style.display = 'block';
+    }
+    
+    function editService(serviceName) {
+        // Logic to populate edit form with existing service details
+        document.getElementById('edit-service-name').value = serviceName;
+        // Set the price based on the selected service
+        // Show the edit form
+    }
+    
+    function deleteService(serviceName) {
+        // Logic to delete the service from the list
+    }
+
+    const customers = [];
+            
+                    function showAddCustomerForm() {
+                        document.getElementById('add-customer-form').style.display = 'block';
+                    }
+            
+                    document.getElementById('new-customer-form').addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        const name = document.getElementById('customer-name').value;
+                        const email = document.getElementById('customer-email').value;
+            
+                        // Add new customer to the list
+                        customers.push({ name, email });
+                        updateCustomerList();
+                        
+                        // Clear form fields
+                        document.getElementById('customer-name').value = '';
+                        document.getElementById('customer-email').value = '';
+                    });
+            
+                    function updateCustomerList() {
+                        const customerList = document.getElementById('customer-list');
+                        customerList.innerHTML = ''; // Clear existing list
+            
+                        customers.forEach(customer => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${customer.name}</td>
+                                <td>${customer.email}</td>
+                                <td>
+                                    <button onclick="viewCustomerDetails('${customer.name}')">View Details</button>
+                                    <button onclick="deleteCustomer('${customer.name}')">Delete</button>
+                                </td>`;
+                            customerList.appendChild(row);
+                        });
+                    }
+            
+                    function viewCustomerDetails(customerName) {
+                        // Logic to display customer details can be implemented here
+                        alert(`Viewing details for ${customerName}`);
+                    }
+            
+                    function deleteCustomer(customerName) {
+                        // Remove customer from the array
+                        const index = customers.findIndex(c => c.name === customerName);
+                        if (index > -1) {
+                            customers.splice(index, 1);
+                            updateCustomerList();
+                            alert(`${customerName} has been deleted.`);
+                        }
+                    }
+</script>
+    
+</body>
+</html>
