@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Person Management System</title>
+    <script src="./JsFiles/script.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }    
+        header, footer {
+            background: linear-gradient(to right, #5c6bc0, #512da8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 18px;
+        }
+        body {
+            padding-top: .5%;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        }
+        footer{
+            bottom: 1%;
+            position:absolute;
+            width: 100%;
+        }
+        nav {
+            position: relative;
+            align-items: center;
+            background: none;
+            overflow: hidden;
+            display: flex;
+        } 
+        nav a {
+            position: inherit;
+            left : 37%;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: ease-out .3s;
+        }
+        nav a:hover {
+            border-radius: 5%;
+            background-color: #5e5667;
+        }
+        nav button{
+            width: 55px;
+            height: 30px;
+            color: white;
+            background: none;
+            border: none;
+            position: relative;
+            left: 45%;
+            transition: ease-out .5s;
+        }
+        nav button:hover{
+            border-radius: 20%;
+            background: rgb(39, 17, 79);
+        }
+        section {
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body onload = "valid()" id = "home">
+    <header>
+        <h1>Person Management System</h1>
+        <nav>
+            <a href="Home.html">Home</a>
+            <a href="AddRecords.html">Add Person</a>
+            <a href="Search.html">Search</a>
+            <a href="ShowRecords.html">Show Records</a>
+            <button onclick = "signout()">Logout</button>
+        </nav>
+    </header>
+
+    <section>
+        <h2>Welcome to the Person Management System</h2><br>
+        <p>This system allows you to manage person records by adding and viewing details.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Person Management System</p>
+    </footer>
+</body>
+</html>

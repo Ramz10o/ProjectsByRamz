@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Records</title>
+    <script src="./JsFiles/script.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }    
+        header, footer {
+            background: linear-gradient(to right, #5c6bc0, #512da8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 18px;
+            width: 100%;
+        }
+        footer{
+            bottom: 1%;
+            position: absolute;
+        }
+        body {
+            padding-top: .5%;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        }
+        nav {
+            position: relative;
+            align-items: center;
+            background: none;
+            overflow: hidden;
+            display: flex;
+        } 
+        nav a {
+            position: inherit;
+            left : 37%;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: ease-out .3s;
+        }
+        nav a:hover {
+            border-radius: 5%;
+            background-color: #5e5667;
+        }
+        nav button{
+            width: 55px;
+            height: 30px;
+            color: white;
+            background: none;
+            border: none;
+            position: relative;
+            left: 45%;
+            transition: ease-out .5s;
+        }
+        nav button:hover{
+            border-radius: 20%;
+            background: rgb(39, 17, 79);
+        }
+        section {
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #f9f9f9;
+            margin: 5px 0;
+            padding: 10px;
+            border-left: 5px solid #007BFF;
+        }
+        input[type="text"] {
+            width: 30%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button[type="submit"]{
+            width:70px;
+            height: 35px;
+        }
+        form{
+            text-align: center;
+        }
+        h1{
+            text-align: center;
+        }
+        .recordslist{
+            position : relative;
+            width : 90%;
+            left : 5%;
+        }
+        .recordslist h1{
+            width: fit-content;
+            position : relative;
+            left : 42%;
+        }
+        img {
+            width: 100px; 
+            height: 100px; 
+            border-radius: 25%; 
+            overflow: hidden;
+            margin-right: 40px; 
+        }
+        table{
+            border: solid black 3px;
+            width: 100%;
+            position: relative;
+        }
+        td{
+            text-align: center;
+            width: max-content;
+            height: fit-content;
+        }
+        tr,td{
+            
+            border: solid black 1.5px;
+        }
+        th{
+            border: solid black 2px;
+            font-size: larger;
+            height: 70px;
+        }
+        table button{
+            background: none;
+            border: none;
+            font-size: large;
+        }
+        .tableDiv{
+            width: 100%;
+            position: relative;
+        }
+        .search{
+            border: none;
+            background: none;
+        }
+        .delButton{
+            position: relative;
+            width: 100%;
+        }
+        .delButton td{
+            position: relative;
+            border: none;
+        }
+        .delButton button{
+            position: relative;
+            border: solid black 1px;
+            border-radius: 15%;;
+        }
+        .delButton button:hover{
+            color: #544268;
+        }
+    </style>
+</head>
+<body onload="valid()">
+    <header>
+        <h1>Person Management System</h1>
+        <nav>
+            <a href="Home.html">Home</a>
+            <a href="AddRecords.html">Add Person</a>
+            <a href="Search.html">Search</a>
+            <a href="ShowRecords.html">Show Records</a>
+            <button onclick="signout()">Logout</button>
+        </nav>
+    </header>
+    <br><br>
+
+    <h1>Search Records</h1><br>
+    <form class="search">
+        <input type="text" id="searchInput" placeholder="Search by Name, Date of Birth(yyyy-mm-dd), E-Mail, or Phone Number" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <section>
+        <div class="recordslist">
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Person Management System</p>
+    </footer>
+
+    <script>
+        const holder = document.getElementsByClassName("recordslist")[0];
+        document.getElementsByClassName('search')[0].addEventListener('submit',(event) => {
+            event.preventDefault();
+            const query = document.getElementById('searchInput').value;
+            getData(query);
+        });
+        async function getData(field){
+            try{
+                const response = await fetch('http://localhost:5000/find',  {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body : JSON.stringify({ query : field })
+                });
+                const data = await response.json();
+                if(data.message === 'No Records found'){
+                    holder.innerHTML = `<h1>No records found.</h1>`;
+                }
+                else{
+                    let i = 1;
+                    holder.innerHTML = '<h1>Records Found</h1><br><br><br>';
+                    let tableDiv=document.createElement('div');
+                    tableDiv.innerHTML=`<table class='records'><tbody>
+                        <tr>
+                        <th><b>S No.</b></th>
+                        <th><b>Name</b></th>
+                        <th><b>Date Of Birth</b></th>
+                        <th><b>E-Mail</b></th>
+                        <th><b>Phone Number</b></th>
+                        <th> Picture</th>
+                    </tr></tbody></table>`;
+                    holder.appendChild(tableDiv);
+                    const table=document.getElementsByClassName('records')[0].getElementsByTagName('tbody')[0];
+                    data.records.forEach(item => {
+                        const row=table.insertRow();
+                        row.id = `row${i}`;
+                        row.insertCell(0).innerHTML=`${i}`;
+                        row.insertCell(1).innerHTML=`${item.name}`;
+                        row.insertCell(2).innerHTML=`${inc(item.dob.substr(0,10).split('-').reverse()).join('-')}`;
+                        row.insertCell(3).innerHTML=`${item.email}`;
+                        row.insertCell(4).innerHTML=`${item.phone}`;
+                        row.insertCell(5).innerHTML=`<img src = "data:${item.pic_extension};base64,${item.pic_data}" alt="${item.name}">`;
+                        const row2=table.insertRow();
+                        row2.className = 'delButton';
+                        const cell = row2.insertCell(0);
+                        cell.innerHTML=`<button onclick="del('row${i++}')">Delete</button>`;
+                        cell.colSpan = 6;
+                        if (i>2){
+                            const footer=document.getElementsByTagName('footer')[0];
+                            footer.style.position='relative';
+                        }
+                        else{
+                            const footer=document.getElementsByTagName('footer')[0];
+                            footer.style.position='absolute';
+                        }
+                    });
+                    
+            }
+        }
+        catch(error){
+            console.error(error);
+            alert('Error retrieving records');
+        }
+}
+    </script>
+</body>
+</html>

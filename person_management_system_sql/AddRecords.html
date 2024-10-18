@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Record - Person Management System</title>
+    <script src="./JsFiles/script.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }    
+        header, footer {
+            background: linear-gradient(to right, #5c6bc0, #512da8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 18px;
+        }
+        body {
+            padding-top: .5%;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        }
+        footer{
+            bottom: 1%;
+            position:absolute;
+            width: 99%;
+        }
+        nav {
+            position: relative;
+            align-items: center;
+            background: none;
+            overflow: hidden;
+            display: flex;
+        } 
+        nav a {
+            position: inherit;
+            left : 37%;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: ease-out .3s;
+        }
+        nav a:hover {
+            border-radius: 5%;
+            background-color: #5e5667;
+        }
+        nav button{
+            font-size: medium;
+            width: 60px;
+            height: 30px;
+            color: white;
+            background: none;
+            border: none;
+            position: relative;
+            left: 45%;
+            transition: ease-out .5s;
+        }
+        nav button:hover{
+            border-radius: 25%;
+            background: rgb(39, 17, 79);
+        }
+        section {
+            padding: 20px;
+        }
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="tel"] {
+            width: 85%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        form input[type="submit"] {
+            position: relative;
+            left : 40%;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .details{
+            border: solid rgb(91, 90, 90) 2px;
+            border-radius: 10%;
+            flex-grow: 1;
+            max-width: fit-content;
+            margin-inline: auto;
+            transition: ease .4s;
+        }
+        .details:hover{
+            box-shadow: 0 0 5px #5e5667 ;
+        }
+        .details h1{
+            position: relative;
+            left: 28%;
+        }
+    </style>
+</head>
+<body onload="valid()">
+    <header>
+        <h1>Person Management System</h1>
+        <nav>
+            <a href="Home.html">Home</a>
+            <a href="AddRecords.html">Add Person</a>
+            <a href="Search.html">Search</a>
+            <a href="ShowRecords.html">Show Records</a>
+            <button onclick="signout()">Logout</a>
+        </nav>
+    </header><br>
+
+    <!-- Add Person Section -->
+    <section class="details">
+        <h1>Add Person Details</h1><br><br>
+        <form id="addRecord">
+
+            <label for="name">Name:&nbsp;</label>
+            <input type="text" id="name" name="name" placeholder="Enter name" required><br><br><br>
+
+            <label for="dob">DOB:&nbsp;&nbsp;</label>
+            <input type="date" id="dob" name="dob" required><br><br><br>
+
+            <label for="email">Email:&nbsp;</label>
+            <input type="email" id="email" name="email" placeholder="Enter email" required><br><br><br>
+
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required><br><br><br>
+
+            <label for="pic">Upload Image(Max size 2 MB):</label>
+            <input type="file" id="pic" name="pic" placeholer="Select image from device" required><br><br><br>
+
+            <input type="submit">
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Person Management System</p>
+    </footer>
+    <script>
+        const form = document.getElementById('addRecord');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const dob = document.getElementById('dob').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const pic = document.getElementById('pic').files[0];
+
+            const formData = new FormData();
+            formData.append('pic', pic);
+            formData.append('name', name);
+            formData.append('dob', dob);
+            formData.append('email', email);
+            formData.append('phone', phone);
+            formData.append('user', localStorage.getItem('email'));
+
+            try {
+                const response = await fetch('http://localhost:5000/addRecord', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const msg = await response.json();
+                alert(msg.message);
+                if (response.ok) {
+                    window.location.href = 'AddRecords.html';
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error inserting record ');
+            }
+        });
+    </script>
+</body>
+</html>
