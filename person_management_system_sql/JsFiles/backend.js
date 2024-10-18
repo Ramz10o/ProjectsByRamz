@@ -9,9 +9,9 @@ const app = express();
 const PORT = 5000;
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '123456',
+    host: 'DataBase Host Here',
+    user: 'DataBase User Here',
+    password: 'DataBase Password Here',
     database: 'person_management_system'
 });
 
