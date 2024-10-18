@@ -8,7 +8,7 @@ const db = sql.createConnection({
     host: 'DataBase Host Here',
     user: 'DataBase User Here',
     password: 'DataBase Password Here',
-    database: 'person_management_system'
+    database: 'person_management_system' // Create Database named "person_management_system" beforehand in mysql server
 });
 
 db.connect((err) => {
