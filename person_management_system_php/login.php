@@ -1,0 +1,29 @@
+<?php
+session_start();
+include 'db_connection.php';
+require 'vendor/autoload.php'; // Ensure you have installed bcrypt using Composer
+
+use \Firebase\JWT\JWT;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents("php://input"));
+    $email = $data->email;
+    $password = $data->password;
+
+    $stmt = $conn->prepare('SELECT * FROM Login WHERE Email = ?');
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if (!$user || !password_verify($password, $user['password'])) {
+        echo json_encode(['message' => 'Invalid credentials']);
+        http_response_code(400);
+        exit();
+    }
+
+    // Update login status
+    $conn->query('UPDATE Login SET isLoggedIn = true WHERE Email = ?', [$email]);
+    echo json_encode(['message' => 'Login Successful']);
+}
+?>

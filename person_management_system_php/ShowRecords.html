@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Records - Person Management System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./script.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }    
+        header, footer {
+            background: linear-gradient(to right, #5c6bc0, #512da8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 18px;
+            width: 100%;
+        }
+        body {
+            padding-top: .5%;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        }
+        footer{
+            position: absolute;
+            bottom: 1%;
+        }
+        nav {
+            position: relative;
+            align-items: center;
+            background: none;
+            overflow: hidden;
+            display: flex;
+        } 
+        nav a {
+            position: inherit;
+            left : 37%;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: ease-out .3s;
+        }
+        nav a:hover {
+            border-radius: 5%;
+            background-color: #5e5667;
+        }
+        nav button{
+            width: 55px;
+            height: 30px;
+            color: white;
+            background: none;
+            border: none;
+            position: relative;
+            left: 45%;
+            transition: ease-out .5s;
+        }
+        nav button:hover{
+            border-radius: 20%;
+            background: rgb(39, 17, 79);
+        }
+        section {
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #f9f9f9;
+            margin: 5px 0;
+            padding: 10px;
+            border-left: 5px solid #007BFF;
+        }
+        .recordslist{
+            position : relative;
+            width : 90%;
+            left : 5%;
+        }
+        .recordslist h1{
+            width: fit-content;
+            position : relative;
+            left : 42%;
+        }
+        img {
+            position: relative;
+            left: 10%; 
+            width: 100px; 
+            height: 100px; 
+            border-radius: 25%; 
+            overflow: hidden;
+            margin-right: 40px; 
+        }
+        table{
+            border: solid black 3px;
+            width: 100%;
+            position: relative;
+        }
+        td{
+            text-align: center;
+            width: max-content;
+            height: fit-content;
+        }
+        tr{
+            position: relative;
+            padding-top: 10%;
+            padding-bottom:10% ;
+        }
+        tr,td{
+            border: solid black 1.5px;
+        }
+        th{
+            border: solid black 2px;
+            font-size: larger;
+            height: 70px;
+        }
+        table button{
+            background: none;
+            border: none;
+            font-size: large;
+        }
+        table button:hover{
+            color: #544268;
+        }
+        .tableDiv{
+            width: 100%;
+            position: relative;
+        }
+        .delButton{
+            position: relative;
+            width: 100%;
+        }
+        .delButton td{
+            position: relative;
+            border: none;
+        }
+        .delButton button{
+            position: relative;
+            border: solid black 1px;
+            border-radius: 15%;;
+        }
+    </style>
+</head>
+<body onload="getData()">
+
+    <header>
+        <h1>Person Management System</h1>
+        <nav>
+            <a href="Home.html">Home</a>
+            <a href="AddRecords.html">Add Person</a>
+            <a href="Search.html">Search</a>
+            <a href="ShowRecords.html">Show Records</a>
+            <button onclick="signout()">Logout</button>
+        </nav>
+    </header>
+    
+    <section>
+        <div class="recordslist">
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Person Management System</p>
+    </footer>
+    <div class="recordslist"></div>
+
+<script>
+    const holder = $(".recordslist");
+
+    async function getData(field = 'id') {
+        if (!await valid()) return;
+
+        try {
+            $.ajax({
+                url: 'get_records.php', 
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ field: field }),
+                success: function(data) {
+                    if (data.message === 'Empty') {
+                        holder.html(`<h1>No records found.</h1>`);
+                    } else {
+                        let i = 1;
+                        holder.html('<h1>Records List</h1><br><br><br>');
+                        let tableDiv = $('<div></div>');
+                        tableDiv.html(`
+                            <table class='records'>
+                                <tbody>
+                                    <tr>
+                                        <th><button onclick='getData()'><b>S No.</b></button></th>
+                                        <th><button onclick='getData("name")'><b>Name</b></button></th>
+                                        <th><button onclick='getData("dob")'><b>Date Of Birth</b></button></th>
+                                        <th><button onclick='getData("email")'><b>E-Mail</b></button></th>
+                                        <th><button onclick='getData("phone")'><b>Phone Number</b></button></th>
+                                        <th>Picture</th>
+                                    </tr>
+                                </tbody>
+                            </table>`
+                        );
+                        holder.append(tableDiv);
+                        const table = $('.records tbody');
+
+                        data.records.forEach(item => {
+                            const row = $('<tr></tr>');
+                            row.attr('id', `row${i}`);
+                            row.append(`<td>${i}</td>`);
+                            row.append(`<td>${item.name}</td>`);
+                            row.append(`<td>${inc(item.dob.substr(0, 10).split('-').reverse()).join('-')}</td>`);
+                            row.append(`<td>${item.email}</td>`);
+                            row.append(`<td>${item.phone}</td>`);
+                            row.append(`<td><img src="data:${item.pic_extension};base64,${item.pic_data}" alt="${item.name}"></td>`);
+                            table.append(row);
+
+                            const row2 = $('<tr class="delButton"></tr>');
+                            const cell = $('<td></td>').attr('colspan', 6);
+                            cell.html(`<button onclick="del('row${i++}')">Delete</button>`);
+                            row2.append(cell);
+                            table.append(row2);
+
+                            const footer = $('footer');
+                            footer.css('position', i > 3 ? 'relative' : 'absolute');
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr);
+                    alert('Error retrieving records');
+                }
+            });
+        } catch (error) {
+            console.error(error);
+            alert('Error retrieving records');
+        }
+    }
+</script>
+</body>
+</html>

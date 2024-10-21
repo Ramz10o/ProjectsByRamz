@@ -1,5 +1,6 @@
 <html>
     <head>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <title>SignUp/SignIn Page</title>
       <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
@@ -201,31 +202,29 @@
         </div>
     </div>
     <script>
-        document.getElementById('loginpost').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = e.target.email.value;
-            const password = e.target.password.value;
-
-            try {
-                const response = await fetch('http://localhost:5000/login', { 
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password }),
+        $(document).ready(function() {
+            $('#loginpost').on('submit', function(e) {
+                e.preventDefault();
+    
+                const email = $(this).find('input[name="email"]').val();
+                const password = $(this).find('input[name="password"]').val();
+    
+                $.ajax({
+                    url: 'login.php',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ email, password }),
+                    success: function(data) {
+                        alert(data.message);
+                        sessionStorage.setItem('isLoggedIn', true);
+                        window.location.href = './Home.html';
+                    },
+                    error: function(xhr) {
+                        const data = JSON.parse(xhr.responseText);
+                        alert('Error logging in: ' + data.message);
+                    }
                 });
-
-                const data = await response.json();
-                if (response.ok) {
-                    alert(data.message);
-                    sessionStorage.setItem('isLoggedIn',true);
-                    window.location.href = './Home.html';
-                } else {
-                    alert('Error logging in:' + data.message);
-                }
-
-            } catch (error) {
-                alert('An error occurred. Please try again.');
-            }
+            });
         });
     </script>
 </body>
