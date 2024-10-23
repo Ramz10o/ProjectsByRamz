@@ -1,9 +1,6 @@
 <?php
 session_start();
 include 'db_connection.php';
-require 'vendor/autoload.php'; // Ensure you have installed bcrypt using Composer
-
-use \Firebase\JWT\JWT;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"));
@@ -22,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Update login status
     $conn->query('UPDATE Login SET isLoggedIn = true WHERE Email = ?', [$email]);
     echo json_encode(['message' => 'Login Successful']);
 }
