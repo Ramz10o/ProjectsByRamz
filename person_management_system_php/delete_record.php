@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         echo json_encode(['message' => 'Record deleted successfully']);
+        http_response_code(200);
     } else {
         echo json_encode(['message' => 'Error deleting record']);
         http_response_code(500);

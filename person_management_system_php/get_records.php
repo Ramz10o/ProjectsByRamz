@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare("SELECT * FROM Records ORDER BY " . mysqli_real_escape_string($conn, $data->field));
     if ($stmt->execute()) {
         echo json_encode(['records' => $stmt->get_result()->fetch_all(MYSQLI_ASSOC), 'message' => 'Found']);
+        http_response_code(200);
     } else {
         echo json_encode(['message' => 'Error retrieving records']);
         http_response_code(500);

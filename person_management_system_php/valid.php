@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
            exit();
        }
        echo json_encode([]);
+       http_response_code(200);
    } else {
        echo json_encode(['message' => "Server error"]);
        http_response_code(500);

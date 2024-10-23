@@ -15,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    $queryString = '%' . mysqli_real_escape_string($conn, trim($data->query)) . '%';
    $stmt = $conn->prepare('SELECT * FROM Records WHERE name LIKE ? OR email LIKE ? OR phone LIKE ? OR dob LIKE ?');
    if ($stmt) {
-       // Bind parameters and execute query
        if ($stmt->bind_param('ssss', ...array_fill(0, 4, "$queryString")) && !$stmt->execute()) {
            echo json_encode(['message' => 'No Records found']);
            http_response_code(404);
@@ -24,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
        echo json_encode(['records' => array_map('json_encode', mysqli_fetch_all($stmt->get_result(), MYSQLI_ASSOC)), 
                          'message' => "Found"]);
+        http_response_code(200);
    } else {
        echo json_encode(['message' => "Error finding records"]);
        http_response_code(500);
