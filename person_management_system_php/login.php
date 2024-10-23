@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
-        $conn->query('UPDATE Login SET isLoggedIn = true WHERE Email = ?', [$email]);
+        $conn->query('UPDATE Login SET isLoggedIn = true WHERE isLoggedIn = false');
         echo json_encode(['message' => 'Login Successful']);
         http_response_code(200);
     }
