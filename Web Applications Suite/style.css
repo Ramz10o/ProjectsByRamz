@@ -1,0 +1,36 @@
+.popup-button {
+    background: none;
+    color: violet;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px; 
+    transition: 0.3s ease;
+}
+
+.popup-button:hover {
+    background: black;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px gray;
+}
+
+.popup-button:active {
+    transform: translateY(2px);
+}
+
+#popup {
+    text-align: center;
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: auto; 
+    display: block;
+    backdrop-filter: blur(9px);
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}

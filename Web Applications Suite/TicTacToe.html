@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./script.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            letter-spacing: 1px;
+            animation: appear ease 1.5s;
+            font-family: 'BatmanForeverOutline', sans-serif;
+        }
+        @keyframes appear {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(0%); }
+        }
+        body {
+            background: linear-gradient(225deg, rgb(45, 2, 28), rgb(1, 1, 39));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .game-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sidebar {
+            width: 20%; 
+            color: aquamarine;
+            text-align: center;
+        }
+        .online-players {
+            right:0;
+            width: 30%;
+            color: aquamarine;
+            text-align: center;
+        }
+        table {
+            border:none;
+            border-spacing: 15px;
+            width: 450px; 
+            height:450px;
+        }
+        td {
+            font-family:'Courier New', Courier, monospace;
+            border-radius: 40px;
+            border: 2px solid rgb(45, 44, 44);
+            width: 100px;
+            height: 100px;
+            font-size: 1px;
+            cursor: pointer;
+            text-align: center;
+            transition: ease .6s;
+        }
+        td:hover {
+            border:2px solid rgb(0, 255, 55);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgb(167, 255, 204);
+        }
+        td[currentPlayer='X'] {
+            font-size: 70px;
+            color: #ff6060;
+        }
+        td[currentPlayer='O'] {
+            font-size: 70px;
+            color: cyan;
+        }
+        .Title {
+            font-size: 60px;
+            color:aquamarine;
+            text-shadow: 0 0 20px aquamarine;
+        }
+        .gameResult {
+            font-size: 30px;
+            color:rgb(0, 145, 255);
+        }
+        button {
+            font-family:"Orbitron", sans-serif; 
+            background: transparent; 
+            color:rgb(255,145,0); 
+            border-radius :25px; 
+            height :70px; 
+           width :90px; 
+           font-size :20px; 
+           visibility:hidden; 
+           transition:.3s; 
+         }
+         button:hover {
+           transform :scale(1.1); 
+           color:red; 
+           box-shadow :0 0 20px rgb(255,153,0); 
+         }
+         button.active { 
+           transform :translate(2px ,7 px); 
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+          <h3 id="selectedMode">Selected Mode:</h3>
+          <div class="mode" id="online">Online</div><br>
+          <div class="mode" id="offline">Offline</div>
+      </div>
+
+      <div class="game-area">
+          <h1 class="Title">TIC TAC TOE !</h1><br>
+          <h1 class="gameResult">O Turn</h1>
+          <table id="ticTacToe">
+              <tr>
+                  <td onclick="makeMove(0)"></td>
+                  <td onclick="makeMove(1)"></td>
+                  <td onclick="makeMove(2)"></td>
+              </tr>
+              <tr>
+                  <td onclick="makeMove(3)"></td>
+                  <td onclick="makeMove(4)"></td>
+                  <td onclick="makeMove(5)"></td>
+              </tr>
+              <tr>
+                  <td onclick="makeMove(6)"></td>
+                  <td onclick="makeMove(7)"></td>
+                  <td onclick="makeMove(8)"></td>
+              </tr>
+          </table>
+          <button onclick="replay()">REPLAY</button>
+      </div>
+
+      <div class="online-players">
+          <h2>Online Players</h2>
+      </div>
+
+    </div>
+
+    <script>
+      let gamemode = 'offline';
+      if(gamemode === 'offline'){
+        selectOffline();
+      }
+      else{
+        selectOnline();
+      }
+      function selectOffline() {
+          let currentPlayer = 'X';
+          let gameBoard = ['', '', '', '', '', '', '', '', ''];
+
+          function makeMove(index) {
+              if (!gameBoard[index]) {
+                  const cell = document.getElementById('ticTacToe').getElementsByTagName('td')[index];
+                  cell.innerText = currentPlayer;
+                  cell.setAttribute('currentPlayer', currentPlayer);
+                  gameBoard[index] = currentPlayer;
+
+                  checkForWin(index);
+              }
+          }
+
+          function checkForWin(index) {
+              if (checkWinner()) {
+                  displayResult(`${currentPlayer} wins!`);
+                  document.querySelector('button').style.visibility = "visible";
+              } else if (gameBoard.every(cell => cell !== '')) {
+                  displayResult("Tie !");
+                  document.querySelector('button').style.visibility = "visible";
+              } else {
+                  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                  displayResult(`${currentPlayer} Turn`);
+              }
+          }
+
+          function checkWinner() {
+              const winPatterns = [
+                  [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                  [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                  [0, 4, 8], [2, 4, 6]
+              ];
+
+              return winPatterns.some(pattern =>
+                  pattern.every(index => gameBoard[index] === currentPlayer)
+              );
+          }
+      }
+
+      function selectOnline() {
+          playOnline();
+      }
+
+      function replay(){
+        if(gameMode === 'offline'){
+          currentPlayer = 'O';
+          gameBoard = ['', '', '', '', '', '', '', '', ''];
+          document.querySelectorAll('#ticTacToe td').forEach(cell => {
+              cell.innerText = '';
+              cell.removeAttribute('currentPlayer');
+          });
+          displayResult("O Turn");
+          document.querySelector('button').style.visibility = "hidden";
+        }
+        else{
+
+        }
+      }
+    </script>
+
+</body>
+</html>
