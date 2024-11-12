@@ -1,0 +1,26 @@
+.close-button {
+    position: absolute;
+    top : 5%;
+    right:5%;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(gray,rgb(32, 32, 32));
+    color: rgb(12, 12, 12);
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: ease 0.5s;
+}
+
+.close-button:hover {
+    box-shadow: 0 0 20px rgb(255, 61, 61);
+    transform: scale(1.1);
+}
+
+.close-button:active{
+    transform: translateY(5%);
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="./script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Scientific Calculator</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap");
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      letter-spacing: 1px;
+      animation: appear ease 1.5s;
+    } 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #303030;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        @keyframes appear {
+            0%{
+              transform: translateY(-100%);
+            }
+            100%{
+              transform: translateY(0%);
+            }
+          }
+        .calculator {
+            background: radial-gradient(rgb(75, 75, 75),rgb(94, 113, 107));
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 350px; 
+        }
+
+        .display {
+            width: 100%;
+            height: 50px;
+            background-color: #b5d6e3;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: right;
+            font-size: 24px;
+            overflow-x: auto; 
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: ease .5s;
+        }
+
+        button:hover {
+            background-color: #6728fa;
+        }
+
+        .operator {
+            background-color: #39a400; 
+        }
+
+        .operator:hover {
+            background-color: rgb(2, 132, 86); 
+        }
+
+        .clear {
+            grid-column: span 2;
+            background-color: #dc3545; 
+        }
+
+        .clear:hover {
+            background-color: #ef4f2b; 
+        }
+        
+        .equal {
+            grid-column: span 2; 
+            background-color: rgb(255, 132, 0);
+        }
+
+        .equal:hover{
+          background-color: rgb(255, 30, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display"></div><br>
+        <div class="buttons">
+            <button onclick="appendToDisplay('(')">(</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('7')">7</button>
+
+            <button onclick="appendToDisplay(')')">)</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('4')">4</button>
+
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button class="operator" onclick="appendToDisplay('/')">/</button>
+            
+            <button class="operator" onclick="appendToDisplay('*')">*</button>
+            <button class="operator" onclick="appendToDisplay('-')">-</button>
+
+			<button onclick="appendToDisplay('0')">0</button>
+			
+
+			<button class="operator equal" onclick="calculate()">=</button>
+			<button class="operator" onclick="appendToDisplay('+')">+</button>
+
+			<button class="operator" onclick="appendFunction('sin')">sin</button>
+			<button class="operator" onclick="appendFunction('cos')">cos</button>
+
+			<button class="operator" onclick="appendFunction('tan')">tan</button>
+			<button class="operator" onclick="appendFunction('log10')">log</button>
+
+			<button class="operator" onclick="appendFunction('exp')">exp</button>
+
+			<button class="operator" onclick="appendFunction('pow', true)">x^y</button>
+			<button class="operator" onclick="appendFunction('sqrt', true)">√x</button>
+
+			<button class="clear" onclick="clearDisplay()">C</button>
+        </div>
+    </div>
+    <button class="close-button" onclick="closeFunction()"><i class='bx bx-x'></i></button>
+    <script>
+        const display = document.getElementById("display");
+        let evalString = "";
+
+        function appendToDisplay(value) {
+			if (display.innerText === "0") {
+				display.innerText = value; 
+			} else {
+				display.innerText += value; 
+			}
+			evalString += value; 
+		}
+
+		function appendFunction(funcName, isBinary = false) {
+			if (isBinary) {
+				evalString += funcName + '('; 
+				display.innerText += funcName + '('; 
+			} else {
+				evalString += 'Math.' + funcName + '('; 
+				display.innerText += funcName + '('; 
+			}
+		}
+
+		function clearDisplay() {
+			display.innerText = ""; 
+			evalString = ""; 
+		}
+
+		function calculate() {
+			let expression = evalString;
+
+			try {
+				let result = eval(expression); 
+				display.innerText = result; 
+				evalString = result.toString(); 
+			} catch (error) {
+				display.innerText = "Invalid Input"; 
+				evalString = ""; 
+			}
+		}
+    </script>
+</body>
+</html>
