@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="./script.js"></script>
+    <title>Professional Notepad</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #000000; }
+        .container { width: 600px; text-align: center; }
+        h1 { color: #ff0202; margin-bottom: 10px; }
+        .toolbar { margin-bottom: 10px; }
+        button { margin: 5px; padding: 10px; border: none; background-color: #007bff; color: white; cursor: pointer; border-radius: 5px; }
+        button:hover { background-color: #0056b3; }
+        #editor { width: 100%; height: 400px; padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 5px; resize: none; }
+    </style>
+</head>
+<body onload="valid()">
+    <div class="container">
+        <h1>Professional Notepad</h1>
+        <div class="toolbar">
+            <button onclick="newFile()">New</button>
+            <button onclick="openFile()">Open</button>
+            <button onclick="saveFile()">Save</button>
+        </div>
+        <textarea id="editor" placeholder="Start typing..."></textarea>
+        <button class="close-button" onclick="closeFunction()"><i class='bx bx-x'></i></button>
+    </div>
+    <script>
+        async function newFile() {
+            document.getElementById('editor').value = '';
+        }
+
+        async function openFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt';
+            input.onchange = async (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('editor').value = e.target.result;
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        async function saveFile() {
+            const content = document.getElementById('editor').value;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            let name = prompt('Enter file name : ');
+            a.download = `${name}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
