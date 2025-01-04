@@ -1,8 +1,20 @@
-{
-    "data": {   
-        "1" : "Preetham",
-        "2" : "Shahid",
-        "3" : "Goutham",
-        "4" : "Ramz"
-    }
+  {
+    "users" : [
+        {
+            "id" : 1,
+            "name" : "Preetham"
+        },
+        {
+            "id" : 2,
+            "name" : "Goutham"
+        },
+        {
+            "id" : 3,
+            "name" : "Ramz"
+        },
+        {
+            "id" : 4,
+            "name" : "Sanju"
+        }
+    ]
 }
