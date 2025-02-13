@@ -4,6 +4,6 @@
   { organization: "KLC Tech Collage", students: 500, batches: "02", email: "klctech@gmail.com", contact:"+919562358844", state: "Andhra Pradesh", status: "Inactive" },
   { organization: "KLC Tech Collage", students: 500, batches: "03", email: "klctech@gmail.com", contact:"+919562358844", state: "Andhra Pradesh", status: "Active" },
   { organization: "KLC Tech Collage", students: 500, batches: "04", email: "klctech@gmail.com", contact:"+919562358844", state: "Andhra Pradesh", status: "Active" },
-  { organization: "KLC Tech Collage", students: 500, batches: "05", email: "klctech@gmail.com", contact:"+919562358844", state: "Andhra Pradesh", status: "Inactive" }
+  { organization: "KLC Tech Collage", students: 500, batches: "05", email: "klctech@gmail.com", contact:"+919562358844", state: "Andhra Pradesh", status: "Inactive" },
 ] 
 }
