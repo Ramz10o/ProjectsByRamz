@@ -2,15 +2,15 @@
     "data" : [
       [
         { "organization": "KLC Tech Collage", "students": 500, "batches": "01", "email": "klctech@gmail.com", "contact":"+919562358844", "state": "Andhra Pradesh", "status": "Active" },
-        { "organization": "KLC Tech Collage", "students": 500, "batches": "02", "email": "klctech@gmail.com", "contact":"+919562358844", "state": "Andhra Pradesh", "status": "Inactive" },
-        { "organization": "KLC Tech Collage", "students": 500, "batches": "03", "email": "klctech@gmail.com", "contact":"+919562358844", "state": "Andhra Pradesh", "status": "Active" },
-        { "organization": "KLC Tech Collage", "students": 500, "batches": "04", "email": "klctech@gmail.com", "contact":"+919562358844", "state": "Andhra Pradesh", "status": "Active" },
-        { "organization": "KLC Tech Collage", "students": 500, "batches": "05", "email": "klctech@gmail.com", "contact":"+919562358844", "state": "Andhra Pradesh", "status": "Inactive" }
+        { "organization": "LBRCE", "students": 600, "batches": "02", "email": "lbrce@gmail.com", "contact":"+919562358844", "state": "Andhra Pradesh", "status": "Inactive" },
+        { "organization": "RVRJC", "students": 540, "batches": "03", "email": "rvrjc@gmail.com", "contact":"+919562358844", "state": "Andhra Pradesh", "status": "Active" },
+        { "organization": "KLU", "students": 590, "batches": "04", "email": "klu@gmail.com", "contact":"+919562358844", "state": "Andhra Pradesh", "status": "Active" },
+        { "organization": "MIN Tech College", "students": 450, "batches": "05", "email": "mintech@gmail.com", "contact":"+919562358844", "state": "Andhra Pradesh", "status": "Inactive" }
       ], [
         {"name": "Scarlett Johansson", "login": "03", "email" : "scarlettjohansson@gmail.com", "contact": "+919562358844"},
         {"name": "Leonardo DeCaprio", "login": "06", "email" : "leonardodecaprio@gmail.com", "contact": "+919562358844"},
         {"name": "Christian Bale", "login": "08", "email" : "christianbale@gmail.com", "contact": "+919562358844"},
-        {"name": "Tobey MAguire", "login": "07", "email" : "tobeymaguire@gmail.com", "contact": "+919562358844"},
+        {"name": "Tobey Maguire", "login": "07", "email" : "tobeymaguire@gmail.com", "contact": "+919562358844"},
         {"name": "Scarlett Johansson", "login": "06", "email" : "scarlettjohansson@gmail.com", "contact": "+919562358844"}
       ] 
     ]
