@@ -8,9 +8,9 @@
         { "organization": "KLC Tech Collage", "students": 500, "batches": "05", "email": "klctech@gmail.com", "contact":"+919562358844", "state": "Andhra Pradesh", "status": "Inactive" }
       ], [
         {"name": "Scarlett Johansson", "login": "03", "email" : "scarlettjohansson@gmail.com", "contact": "+919562358844"},
-        {"name": "Scarlett Johansson", "login": "06", "email" : "scarlettjohansson@gmail.com", "contact": "+919562358844"},
-        {"name": "Scarlett Johansson", "login": "08", "email" : "scarlettjohansson@gmail.com", "contact": "+919562358844"},
-        {"name": "Scarlett Johansson", "login": "07", "email" : "scarlettjohansson@gmail.com", "contact": "+919562358844"},
+        {"name": "Leonardo DeCaprio", "login": "06", "email" : "leonardodecaprio@gmail.com", "contact": "+919562358844"},
+        {"name": "Christian Bale", "login": "08", "email" : "christianbale@gmail.com", "contact": "+919562358844"},
+        {"name": "Tobey MAguire", "login": "07", "email" : "tobeymaguire@gmail.com", "contact": "+919562358844"},
         {"name": "Scarlett Johansson", "login": "06", "email" : "scarlettjohansson@gmail.com", "contact": "+919562358844"}
       ] 
     ]
