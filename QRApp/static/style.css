@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0f132d;
+    color: #e9c8f7;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: rgb(54, 54, 54);
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(37, 66, 43, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    color: #ffd174;
+}
+
+h2 {
+    color: #ffd174;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="file"],
+input[type="password"] {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #56cece;
+    color: rgb(14, 14, 14);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #5664ce;
+}
+
+#generated-qr img {
+    margin-top: 20px;
+    max-width: 200px;
+}
+
+#qr-data {
+    margin-top: 20px;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    margin: 10px;
+    background-color: #56cece;
+    color: rgb(14, 14, 14);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #5664ce;
+}
+
+a{
+    color: hotpink;
+}
