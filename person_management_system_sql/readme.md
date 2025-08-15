@@ -139,8 +139,12 @@ Records Table
 
 - Dashboard analytics with charts and visualizations.
 
+---
+
 ## License
 
 MIT License
+
 Author: Charitha Sharma
+
 Year: 2024
