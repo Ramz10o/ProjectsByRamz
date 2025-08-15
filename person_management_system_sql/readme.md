@@ -145,6 +145,6 @@ Records Table
 
 MIT License
 
-Author: Charitha Sharma
+Author: Ramz P
 
 Year: 2024
