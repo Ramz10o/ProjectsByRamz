@@ -94,8 +94,8 @@ It allows users to register, log in securely, generate QR codes from text or oth
 ###  Steps
 1. Clone the repository:
 
-   git clone https://github.com/your-username/QRApp.git
-   cd QRApp
+   - git clone https://github.com/your-username/QRApp.git
+   -  cd QRApp
 
 2. Install dependencies:
 
