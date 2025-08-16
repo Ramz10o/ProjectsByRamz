@@ -66,7 +66,7 @@ It allows users to register, log in securely, generate QR codes from text or oth
 
 **Tables:**
 
-**Users**
+1. **Users**
 | Column   | Type         | Constraints            |
 |----------|--------------|------------------------|
 | id       | SERIAL       | PRIMARY KEY            |
@@ -74,7 +74,7 @@ It allows users to register, log in securely, generate QR codes from text or oth
 | email    | VARCHAR(255) | NOT NULL, UNIQUE       |
 | password | VARCHAR(255) | NOT NULL               |
 
-**Codes**
+2. **Codes**
 | Column  | Type         | Constraints  |
 |---------|--------------|--------------|
 | email   | VARCHAR(255) | PRIMARY KEY  |
