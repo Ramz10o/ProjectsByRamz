@@ -89,7 +89,7 @@ It allows users to register, log in securely, generate QR codes from text or oth
 - PostgreSQL
 - pip
 
-### Steps
+###  Steps
 1. Clone the repository:
 
    git clone https://github.com/your-username/QRApp.git
@@ -120,7 +120,7 @@ It allows users to register, log in securely, generate QR codes from text or oth
 
 ---
 
-### 💻 Usage
+## 💻 Usage
 
 1. Landing page (/) → choose Login or Register.
 
@@ -140,7 +140,7 @@ It allows users to register, log in securely, generate QR codes from text or oth
 
 ---
 
-## API Endpoints
+## 🔗 API Endpoints
 
 | End Point        | Method   | Description                              |
 |------------------|----------|------------------------------------------|
@@ -151,7 +151,7 @@ It allows users to register, log in securely, generate QR codes from text or oth
 
 ---
 
-### 🌟 Future Enhancements
+## 🌟 Future Enhancements
 
    - Add QR code history for users
 
@@ -165,7 +165,7 @@ It allows users to register, log in securely, generate QR codes from text or oth
 
 ---
 
-### 📄 License
+## 📄 License
 
 MIT License
 
