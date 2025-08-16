@@ -1,4 +1,4 @@
-# 🚀 Personal App Suite
+# 🚀 Web Applications Suite
 
 
 A **secure, web-based multi-app suite** featuring a **Scientific Calculator**, **Professional Notepad**, **Real-time Chat**, and **Tic Tac Toe Game** – all accessible from a single dashboard! 🎯  
