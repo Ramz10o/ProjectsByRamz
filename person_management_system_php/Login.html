@@ -210,7 +210,7 @@
                 const password = $(this).find('input[name="password"]').val();
     
                 $.ajax({
-                    url: 'login.php',
+                    url: 'scripts/login.php',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({ email, password }),

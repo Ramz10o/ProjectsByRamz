@@ -201,7 +201,7 @@
         async function getData(field) {
             try {
                 $.ajax({
-                    url: 'find_records.php', 
+                    url: 'scripts/find_records.php', 
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({ query: field }),

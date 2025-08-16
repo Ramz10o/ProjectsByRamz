@@ -1,6 +1,6 @@
 function signout() {
     $.ajax({
-        url: 'logout.php',
+        url: 'scripts/logout.php',
         type: 'POST',
         contentType: 'application/json',
         success: function(msg) {
@@ -19,7 +19,7 @@ function del(id) {
     const delid = document.getElementById(id).getElementsByTagName('td')[3].innerHTML;
     
     $.ajax({
-        url: 'delete_record.php',
+        url: 'scripts/delete_record.php',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ delid: delid }),
@@ -46,7 +46,7 @@ function valid() {
         return false;
     } else {
         $.ajax({
-            url: 'valid.php',
+            url: 'scripts/valid.php',
             type: 'POST',
             contentType: 'application/json',
             success: function(response) {
