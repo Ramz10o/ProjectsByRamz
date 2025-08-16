@@ -26,21 +26,21 @@ A secure, web-based Person Management System for managing personal records effic
 
 ## Features
 
-- **Single Admin Login**: Only one admin can log in and manage records.  
-- CRUD Operations: Add, search, view, and delete personal records.  
-- Secure Authentication: Passwords hashed using bcrypt; session states stored in the database.  
-- Dynamic Web Interface: HTML, CSS, and JavaScript front end with interactive tables and forms.  
-- Data Integrity: Unique constraints on email and phone number prevent duplicate entries.  
-- Profile Pictures: Stored in base64 format.
+- **Single Admin Login:** Only one admin can log in and manage records.  
+- **CRUD Operations:** Add, search, view, and delete personal records.  
+- **Secure Authentication:** Passwords hashed using bcrypt; session states stored in the database.  
+- **Dynamic Web Interface:** HTML, CSS, and JavaScript front end with interactive tables and forms.  
+- **Data Integrity:** Unique constraints on email and phone number prevent duplicate entries.  
+- **Profile Pictures:** Stored in base64 format.
 
 ---
 
 ## Technologies Used
 
-- Backend: Node.js, Express.js  
-- Frontend: HTML, CSS, JavaScript  
-- Database: MySQL  
-- Libraries: bcryptjs, body-parser, cors, multer, mysql2  
+- **Backend:** Node.js, Express.js  
+- **Frontend:** HTML, CSS, JavaScript  
+- **Database:** MySQL  
+- **Libraries:** bcryptjs, body-parser, cors, multer, mysql2  
 
 ---
 
