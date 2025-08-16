@@ -70,7 +70,7 @@ The game window will open, and you can start playing immediately.
 
 - Mouse Click: Change background color
 
-- Space: Restart game after game over
+- Space: Pause the game while running and restart game after game over
 
 - Close Window: Quit the game
 
