@@ -1,4 +1,4 @@
-# MiniGame
+# Hungry Blocks
 
 ![Python](https://img.shields.io/badge/Python-3.7%2B-blue)
 ![Pygame](https://img.shields.io/badge/Pygame-2.3+-green)
