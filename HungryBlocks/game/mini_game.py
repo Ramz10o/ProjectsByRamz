@@ -1,7 +1,7 @@
 import random
 import pygame as pg
-from settings import *
-from utils import get_random_colour
+from .settings import *
+from .utils import get_random_colour
 
 class HungryBlocks:
     def __init__(self):
