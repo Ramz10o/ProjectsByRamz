@@ -26,7 +26,7 @@ A secure, web-based Person Management System for managing personal records effic
 
 ## Features
 
-- Single Admin Login: Only one admin can log in and manage records.  
+- **Single Admin Login**: Only one admin can log in and manage records.  
 - CRUD Operations: Add, search, view, and delete personal records.  
 - Secure Authentication: Passwords hashed using bcrypt; session states stored in the database.  
 - Dynamic Web Interface: HTML, CSS, and JavaScript front end with interactive tables and forms.  
