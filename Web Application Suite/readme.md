@@ -139,7 +139,7 @@ Built using **HTML, CSS, JavaScript**, **Node.js**, **Express.js**, **Socket.io*
 
 - Mobile responsive design improvements.
 
-## License
+## 📄 License
 
 MIT License
 
