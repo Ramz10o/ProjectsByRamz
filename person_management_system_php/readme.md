@@ -145,6 +145,6 @@ A secure, web-based Person Management System for managing personal records effic
 
 MIT License
 
-Author: Ramz P
+Authors: Ramz P, Preetham Pradhan
 
 Year: 2024
