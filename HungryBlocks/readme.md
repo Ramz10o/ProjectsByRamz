@@ -1,4 +1,4 @@
-# Hungry Blocks
+# 👾 Hungry Blocks
 
 ![Python](https://img.shields.io/badge/Python-3.7%2B-blue)
 ![Pygame](https://img.shields.io/badge/Pygame-2.3+-green)
@@ -7,7 +7,7 @@ A simple Pygame-based mini game where you control a rectangle to collect food wh
 
 ---
 
-## Table of Contents
+## 📝 Table of Contents
 
 - [Features](#features)
 - [Installation](#installation)
@@ -18,18 +18,18 @@ A simple Pygame-based mini game where you control a rectangle to collect food wh
 
 ---
 
-## Features
+## ✨ Features
 
-- Move a rectangle around the screen.
-- Collect randomly placed food to increase score.
-- Avoid randomly spawning obstacles.
-- Background color changes on mouse click.
-- Speed increases as the score increases.
-- Game over and restart functionality.
+- Move a rectangle around the screen. ⬆️⬇️⬅️➡️
+- Collect randomly placed food to increase score. 🍎
+- Avoid randomly spawning obstacles. 🚧
+- Background color changes on mouse click. 🎨
+- Speed increases as the score increases. ⚡
+- Game over and restart functionality. 🔄
 
 ---
 
-## Installation
+## 💾 Installation
 
 1. Clone the repository:
 
@@ -53,7 +53,7 @@ pip install -r requirements.txt
 
 ---
 
-## Usage
+## ▶️ Usage
 
 Run the game using:
 
@@ -64,25 +64,25 @@ The game window will open, and you can start playing immediately.
 
 ---
 
-## Controls
+## 🎮 Controls
 
-- Arrow Keys: Move the rectangle (Up, Down, Left, Right)
+- Arrow Keys: Move the rectangle (Up ⬆️, Down ⬇️, Left ⬅️, Right ➡️)
 
-- Mouse Click: Change background color
+- Mouse Click: Change background color 🎨
 
-- Space: Pause the game while running and restart game after game over
+- Space: Pause the game while running ⏸️ / Restart game after game over 🔄
 
-- Close Window: Quit the game
+- Close Window: Quit the game ❌
 
 ---
 
-## Dependencies
+## 📦 Dependencies
 
 - Python 3.7+
 
 - Pygame >= 2.3
 
-## License
+## ⚖️ License
 
 MIT License
 
