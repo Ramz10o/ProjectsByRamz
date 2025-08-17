@@ -3,7 +3,7 @@
 # install cmake from cmake.org
 # install visual studio for c++
 # pip install cmake
-#pip install dlib 
+# pip install dlib 
 
 import cv2 as c
 import dlib as d
@@ -18,4 +18,5 @@ while True :
     if c.waitKey(1) & 0xFF == ord('q') :
         break
 c.destroyAllWindows()
+
 vid.release()
