@@ -92,13 +92,13 @@ Built using **HTML, CSS, JavaScript**, **Node.js**, **Express.js**, **Socket.io*
 1. Clone or download the repository.
 
 2. Navigate to project folder and run:
-   
+   ```bash
    npm install
-
+   ```
 3. Start server:
-
+   ```bash
    node server.js
-
+   ```
 4. Open Login_page.html in a modern browser.
 
 ---
@@ -146,4 +146,5 @@ MIT License
 Author: Ramz P
 
 Year: 2024
+
 
